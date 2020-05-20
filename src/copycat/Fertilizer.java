@@ -20,10 +20,32 @@ public class Fertilizer extends Actor {
 		}
 	}
 
-	static private final int HEALTH = 400;
-	static private final int COOL_DOWN = 0;
+	static private final int MAXIMUM_HITPOINTS = 200;
+	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
+	static private final int LIFESPAN_TIMER = 600_000;
+	static private final int ATTACK_POWER = 0;
+	static private final int ATTACK_POWER_ACCELERATION = 0;
+	static private final int ATTACK_POWER_CAP = ATTACK_POWER;
+	static private final int BLEED_DAMAGE = 0;
+	static private final int DAMAGE_ON_DEATH = 0;
+	static private final int ATTACK_RANGE = 0;
+	static private final int ATTACK_COOLDOWN = 0;
+	static private final int ATTACK_COOLDOWN_TIMER = 0;
+	static private final int STUN_DURATION = 0;
+	static private final int BIND_DURATION = 0;
+	static private final int HEALING = 0;
+	static private final int HEALING_COOLDOWN = 0;
+	static private final int IMMUNITY_DURATION = 0;
+	static private final int IMMUNITY_TIMER = 0;
+	static private final int DAMAGE_REDUCTION_DURATION = 120_000;
+	static private final int DAMAGE_REDUCTION_TIMER = DAMAGE_REDUCTION_DURATION;
+	static private final double DAMAGE_REDUCTION_AMOUNT = 20.00;
+	static private final boolean FLYING = false;
 	static private final double SPEED = 0;
-	static private final int ATTACK_DAMAGE = 0;
+	static private final double SPEED_ACCELERATION = 0;
+	static private final double SPEED_ACCELERATION_CAP = SPEED;
+	static private final int LEVEL = 1;
+	static private final int COST = 5_000;
 
 	public Fertilizer(Point2D.Double startingPosition, Point2D.Double initHitbox) {// Point2D.Double
 																						// startingPosition,
@@ -31,8 +53,11 @@ public class Fertilizer extends Actor {
 																						// BufferedImage img, int
 																						// health, int coolDown, double
 																						// speed, int attackDamage) {
-		super(startingPosition, initHitbox, IMG, HEALTH, COOL_DOWN, SPEED, ATTACK_DAMAGE);
-		
+		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, LIFESPAN_TIMER, ATTACK_POWER,
+				ATTACK_POWER_ACCELERATION, ATTACK_POWER_CAP, BLEED_DAMAGE, DAMAGE_ON_DEATH, ATTACK_RANGE,
+				ATTACK_COOLDOWN, ATTACK_COOLDOWN_TIMER, STUN_DURATION, BIND_DURATION, HEALING, HEALING_COOLDOWN,
+				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
+				DAMAGE_REDUCTION_AMOUNT, FLYING, SPEED, SPEED_ACCELERATION, SPEED_ACCELERATION_CAP, LEVEL, COST);
 	};
 
 	/**
