@@ -18,16 +18,17 @@ public class AcceleratorBiohazard extends Actor {
 		}
 	}
 
-	static private final int MAXIMUM_HITPOINTS = 50;
+	static private final int MAXIMUM_HITPOINTS = 200;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
-	static private final int LIFESPAN_TIMER = 999_999_999;
-	static private final int ATTACK_POWER = 20;
-	static private final int ATTACK_POWER_ACCELERATION = 1;
-	static private final int ATTACK_POWER_CAP = 50;
+	static private final int MAXIMUM_LIFESPAN = 999_999_999;
+	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
+	static private final int ATTACK_POWER = 10;
+	static private final int ATTACK_POWER_ACCELERATION = 2;
+	static private final int ATTACK_POWER_CAP = 200;
 	static private final int BLEED_DAMAGE = 1;
 	static private final int DAMAGE_ON_DEATH = 0;
 	static private final int ATTACK_RANGE = 1;
-	static private final int ATTACK_COOLDOWN = 20;
+	static private final int ATTACK_COOLDOWN = 40;
 	static private final int ATTACK_COOLDOWN_TIMER = 0;
 	static private final int STUN_DURATION = 0;
 	static private final int BIND_DURATION = 0;
@@ -39,15 +40,15 @@ public class AcceleratorBiohazard extends Actor {
 	static private final int DAMAGE_REDUCTION_TIMER = DAMAGE_REDUCTION_DURATION;
 	static private final double DAMAGE_REDUCTION_AMOUNT = 0.00;
 	static private final boolean FLYING = false;
-	static private final double SPEED = -0.5;
-	static private final double SPEED_ACCELERATION = -0.05;
-	static private final double SPEED_ACCELERATION_CAP = -2.5;
+	static private final double SPEED = -0.2;
+	static private final double SPEED_ACCELERATION = -0.2;
+	static private final double SPEED_ACCELERATION_CAP = -5;
 	static private final int LEVEL = 1;
 	static private final int COST = 400;
 
 	public AcceleratorBiohazard(Point2D.Double startingPosition, Point2D.Double initHitbox) {
-		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, LIFESPAN_TIMER, ATTACK_POWER,
-				ATTACK_POWER_ACCELERATION, ATTACK_POWER_CAP, BLEED_DAMAGE, DAMAGE_ON_DEATH, ATTACK_RANGE,
+		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, MAXIMUM_LIFESPAN, LIFESPAN_TIMER,
+				ATTACK_POWER, ATTACK_POWER_ACCELERATION, ATTACK_POWER_CAP, BLEED_DAMAGE, DAMAGE_ON_DEATH, ATTACK_RANGE,
 				ATTACK_COOLDOWN, ATTACK_COOLDOWN_TIMER, STUN_DURATION, BIND_DURATION, HEALING, HEALING_COOLDOWN,
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
 				DAMAGE_REDUCTION_AMOUNT, FLYING, SPEED, SPEED_ACCELERATION, SPEED_ACCELERATION_CAP, LEVEL, COST);
@@ -65,11 +66,14 @@ public class AcceleratorBiohazard extends Actor {
 					this.attack(neutral);
 				}
 			}
-			if (this.speed > -4) {
-				if (this.readyForAttack()) {
-					this.speed -= 0.1;
-					this.resetAttackCooldown();
+			if (this.readyForAttack()) {
+				if (this.speed > -5) {
+					this.speed -= 0.2;
 				}
+				if (this.attackPower < attackPowerCap) {
+					this.attackPower += attackPowerAcceleration;
+				}
+				this.resetAttackCooldown();
 			}
 		} else if (!this.isAlive()) {
 			ActorTest.score += 1000;
@@ -80,11 +84,12 @@ public class AcceleratorBiohazard extends Actor {
 	public void attack(Actor other) {
 		if (this != other && this.isCollidingOther(other)) {
 			setColliding(true);
-			this.speed = -0.05;
 			if (this.readyForAttack()) {
 				other.changeHitpoints(-attackPower);
 				this.resetAttackCooldown();
 			}
+			this.speed = -0.2;
+			this.attackPower = 10;
 		}
 	}
 }

@@ -20,16 +20,17 @@ public class EmpoweredBiohazard extends Actor {
 		}
 	}
 
-	static private final int MAXIMUM_HITPOINTS = 1_000;
+	static private final int MAXIMUM_HITPOINTS = 10_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
-	static private final int LIFESPAN_TIMER = 999_999_999;
-	static private final int ATTACK_POWER = 100;
-	static private final int ATTACK_POWER_ACCELERATION = 10;
+	static private final int MAXIMUM_LIFESPAN = 999_999_999;
+	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
+	static private final int ATTACK_POWER = 200;
+	static private final int ATTACK_POWER_ACCELERATION = 100;
 	static private final int ATTACK_POWER_CAP = 2_000;
 	static private final int BLEED_DAMAGE = 50;
 	static private final int DAMAGE_ON_DEATH = 200;
 	static private final int ATTACK_RANGE = 1;
-	static private final int ATTACK_COOLDOWN = 50;
+	static private final int ATTACK_COOLDOWN = 100;
 	static private final int ATTACK_COOLDOWN_TIMER = 0;
 	static private final int STUN_DURATION = 0;
 	static private final int BIND_DURATION = 0;
@@ -41,25 +42,20 @@ public class EmpoweredBiohazard extends Actor {
 	static private final int DAMAGE_REDUCTION_TIMER = DAMAGE_REDUCTION_DURATION;
 	static private final double DAMAGE_REDUCTION_AMOUNT = 25.00;
 	static private final boolean FLYING = false;
-	static private final double SPEED = -0.1;
+	static private final double SPEED = -0.2;
 	static private final double SPEED_ACCELERATION = 0;
-	static private final double SPEED_ACCELERATION_CAP = -0.1;
+	static private final double SPEED_ACCELERATION_CAP = -0.2;
 	static private final int LEVEL = 1;
-	static private final int COST = 10_000;
+	static private final int COST = 0;
 
-	public EmpoweredBiohazard(Point2D.Double startingPosition, Point2D.Double initHitbox) {// Point2D.Double
-																						// startingPosition,
-																						// Point2D.Double initHitbox,
-																						// BufferedImage img, int
-																						// health, int coolDown, double
-																						// speed, int attackDamage) {
-		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, LIFESPAN_TIMER, ATTACK_POWER,
+	public EmpoweredBiohazard(Point2D.Double startingPosition, Point2D.Double initHitbox) {
+		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, MAXIMUM_LIFESPAN, LIFESPAN_TIMER, ATTACK_POWER,
 				ATTACK_POWER_ACCELERATION, ATTACK_POWER_CAP, BLEED_DAMAGE, DAMAGE_ON_DEATH, ATTACK_RANGE,
 				ATTACK_COOLDOWN, ATTACK_COOLDOWN_TIMER, STUN_DURATION, BIND_DURATION, HEALING, HEALING_COOLDOWN,
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
 				DAMAGE_REDUCTION_AMOUNT, FLYING, SPEED, SPEED_ACCELERATION, SPEED_ACCELERATION_CAP, LEVEL, COST);
 	};
-
+	
 	/**
 	 * overrides drawHealthBar method to draw a larger health bar
 	 */
@@ -69,8 +65,8 @@ public class EmpoweredBiohazard extends Actor {
 		Point2D.Double box = this.getHitbox();
 	    g.setColor(Color.BLACK);  
 		g.drawRect((int)pos.getX() - 5,(int) pos.getY() - 5, (int)(box.getX()+9), 3);  
-	    g.setColor(new Color(191,191,191));  
-		g.fillRect((int)pos.getX() - 5,(int) pos.getY() - 5, (int)((box.getX()+9) * this.hitpoints / (double)this.hitpoints), 3);
+	    g.setColor(new Color(255,32,32));  
+		g.fillRect((int)pos.getX() - 5,(int) pos.getY() - 5, (int)((box.getX()+9) * this.hitpoints / (double)this.maximumHitpoints), 3);
 	}
 
 	/**
@@ -80,12 +76,7 @@ public class EmpoweredBiohazard extends Actor {
 	@Override
 	public void update() {
 		super.update();
-		if(this.attackPower < 2000) {
-			if(this.readyForAttack()) {
-				this.attackPower += attackPowerAcceleration;
-				this.resetAttackCooldown();
-			}
-		}
+		
 		if(this.isAlive()) {
 			for(Actor plant : ActorTest.plants) {
 				this.attack(plant);
@@ -95,8 +86,15 @@ public class EmpoweredBiohazard extends Actor {
 					this.attack(neutral);
 				}
 			}
+			if(this.attackPower < 2000) {
+				if(this.readyForAttack()) {
+					this.attackPower += attackPowerAcceleration;
+					this.resetAttackCooldown();
+				}
+			}
 		} else if (!this.isAlive()) {
 			ActorTest.score += 10000;
+			applyDeathDamage();
 		}
 	}
 }

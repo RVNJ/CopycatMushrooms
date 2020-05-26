@@ -22,7 +22,8 @@ public class Fertilizer extends Actor {
 
 	static private final int MAXIMUM_HITPOINTS = 200;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
-	static private final int LIFESPAN_TIMER = 600_000;
+	static private final int MAXIMUM_LIFESPAN = 600_000;
+	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
 	static private final int ATTACK_POWER = 0;
 	static private final int ATTACK_POWER_ACCELERATION = 0;
 	static private final int ATTACK_POWER_CAP = ATTACK_POWER;
@@ -47,13 +48,8 @@ public class Fertilizer extends Actor {
 	static private final int LEVEL = 1;
 	static private final int COST = 5_000;
 
-	public Fertilizer(Point2D.Double startingPosition, Point2D.Double initHitbox) {// Point2D.Double
-																						// startingPosition,
-																						// Point2D.Double initHitbox,
-																						// BufferedImage img, int
-																						// health, int coolDown, double
-																						// speed, int attackDamage) {
-		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, LIFESPAN_TIMER, ATTACK_POWER,
+	public Fertilizer(Point2D.Double startingPosition, Point2D.Double initHitbox) {
+		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, MAXIMUM_LIFESPAN, LIFESPAN_TIMER, ATTACK_POWER,
 				ATTACK_POWER_ACCELERATION, ATTACK_POWER_CAP, BLEED_DAMAGE, DAMAGE_ON_DEATH, ATTACK_RANGE,
 				ATTACK_COOLDOWN, ATTACK_COOLDOWN_TIMER, STUN_DURATION, BIND_DURATION, HEALING, HEALING_COOLDOWN,
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,

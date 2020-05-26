@@ -9,6 +9,7 @@ public class Actor extends Sprite implements Attack {
 
 	protected int maximumHitpoints;
 	protected int hitpoints;
+	protected int maximumLifespan;
 	protected int lifespanTimer;
 	protected int attackPower;
 	protected int attackPowerAcceleration;
@@ -36,15 +37,16 @@ public class Actor extends Sprite implements Attack {
 	private boolean isColliding;
 
 	public Actor(Point2D.Double startingPosition, Point2D.Double initHitbox, BufferedImage img, int maximumHitpoints,
-			int hitpoints, int lifespanTimer, int attackPower, int attackPowerAcceleration, int attackPowerCap,
+			int hitpoints, int maximumLifespan, int lifespanTimer, int attackPower, int attackPowerAcceleration, int attackPowerCap,
 			int bleedDamage, int damageOnDeath, int attackRange, int attackCooldown, int attackCooldownTimer,
 			int stunDuration, int bindDuration, int healing, int healingCooldown, int immunityDuration,
 			int immunityTimer, int damageReductionDuration, int damageReductionTimer, double damageReductionAmount,
 			boolean flying, double speed, double speedAcceleration, double speedAccelerationCap, int level, int cost) {
 		super(startingPosition, initHitbox, img);
-		this.maximumHitpoints = hitpoints;
-		this.hitpoints = hitpoints;
-		this.lifespanTimer = lifespanTimer;
+		this.maximumHitpoints = maximumHitpoints;
+		this.hitpoints = maximumHitpoints;
+		this.maximumLifespan = maximumLifespan;
+		this.lifespanTimer = maximumLifespan;
 		this.attackPower = attackPower;
 		this.attackPowerAcceleration = attackPowerAcceleration;
 		this.attackPowerCap = attackPowerCap;
@@ -103,9 +105,18 @@ public class Actor extends Sprite implements Attack {
 	public void changeHitpoints(int change) {
 		hitpoints += change;
 	}
+	
+	public void changeLifespan(int change) {
+		this.lifespanTimer += change;
+	}
 
 	public boolean isAlive() {
-		return hitpoints > 0;
+		return (hitpoints > 0 && lifespanTimer > 0);
+	}
+	
+	public Point2D.Double applyDeathDamage() {
+		System.out.println(this.getPosition().toString());
+		return this.getPosition(); 
 	}
 
 	public void drawHitpointsBar(Graphics g) {
@@ -113,9 +124,18 @@ public class Actor extends Sprite implements Attack {
 		Point2D.Double box = this.getHitbox();
 		g.setColor(Color.BLACK);
 		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
-		g.setColor(new Color(191, 191, 191));
+		g.setColor(new Color(255, 32, 32));
 		g.fillRect((int) pos.getX(), (int) pos.getY() - 5,
 				(int) (box.getX() * this.hitpoints / (double) this.maximumHitpoints), 3);
+	}
+	public void drawLifespanBar(Graphics g) {
+		Point2D.Double pos = this.getPosition();
+		Point2D.Double box = this.getHitbox();
+		g.setColor(Color.BLACK);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 10, (int) box.getX(), 3);
+		g.setColor(new Color(32, 32, 255));
+		g.fillRect((int) pos.getX(), (int) pos.getY() - 10,
+				(int) (box.getX() * this.lifespanTimer / (double) this.maximumLifespan), 3);
 	}
 
 	@Override
@@ -127,6 +147,10 @@ public class Actor extends Sprite implements Attack {
 				this.resetAttackCooldown();
 			}
 		}
+	}
+	
+	public int getCost() {
+		return cost;
 	}
 
 	public boolean setCollisionStatus(Actor other) {

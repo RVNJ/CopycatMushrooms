@@ -18,9 +18,10 @@ public class Poison extends Actor {
 		}
 	}
 
-	static private final int MAXIMUM_HITPOINTS = 10_000;
+	static private final int MAXIMUM_HITPOINTS = 1_000_000_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
-	static private final int LIFESPAN_TIMER = 10_000;
+	static private final int MAXIMUM_LIFESPAN = 30_000;
+	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
 	static private final int ATTACK_POWER = 100;
 	static private final int ATTACK_POWER_ACCELERATION = 0;
 	static private final int ATTACK_POWER_CAP = ATTACK_POWER;
@@ -46,7 +47,7 @@ public class Poison extends Actor {
 	static private final int COST = 2_000;
 
 	public Poison(Point2D.Double startingPosition, Point2D.Double initHitbox) {
-		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, LIFESPAN_TIMER, ATTACK_POWER,
+		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, MAXIMUM_LIFESPAN, LIFESPAN_TIMER, ATTACK_POWER,
 				ATTACK_POWER_ACCELERATION, ATTACK_POWER_CAP, BLEED_DAMAGE, DAMAGE_ON_DEATH, ATTACK_RANGE,
 				ATTACK_COOLDOWN, ATTACK_COOLDOWN_TIMER, STUN_DURATION, BIND_DURATION, HEALING, HEALING_COOLDOWN,
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
@@ -68,11 +69,12 @@ public class Poison extends Actor {
 		for (Actor zombie : ActorTest.zombies) {
 			this.attack(zombie);
 		}
-		for (Actor neutral : ActorTest.neutrals) {
-			if (!(neutral instanceof NuclearBomb) && !(neutral instanceof Fence) && !(neutral instanceof Fertilizer) && !(neutral instanceof Resource)) {
-				this.attack(neutral);
-			}
-		}
+//		for (Actor neutral : ActorTest.neutrals) {
+//			if (!(neutral instanceof NuclearBomb) && !(neutral instanceof Poison) && !(neutral instanceof Fence) && !(neutral instanceof Fertilizer) && !(neutral instanceof Resource)) {
+//				this.attack(neutral);
+//			}
+//		}
+		this.changeLifespan(-100);
 	}
 
 	/**
@@ -81,6 +83,5 @@ public class Poison extends Actor {
 	@Override
 	public void attack(Actor other) {
 		other.changeHitpoints(-attackPower);
-		this.changeHitpoints(-attackPower);
 	}
 }

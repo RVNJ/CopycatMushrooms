@@ -20,7 +20,8 @@ public class Biohazard extends Actor {
 
 	static private final int MAXIMUM_HITPOINTS = 100;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
-	static private final int LIFESPAN_TIMER = 999_999_999;
+	static private final int MAXIMUM_LIFESPAN = 999_999_999;
+	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
 	static private final int ATTACK_POWER = 50;
 	static private final int ATTACK_POWER_ACCELERATION = 0;
 	static private final int ATTACK_POWER_CAP = ATTACK_POWER;
@@ -41,12 +42,12 @@ public class Biohazard extends Actor {
 	static private final boolean FLYING = false;
 	static private final double SPEED = -1;
 	static private final double SPEED_ACCELERATION = 0;
-	static private final double SPEED_ACCELERATION_CAP = -1;
+	static private final double SPEED_ACCELERATION_CAP = SPEED;
 	static private final int LEVEL = 1;
-	static private final int COST = 400;
+	static private final int COST = 0;
 
 	public Biohazard(Point2D.Double startingPosition, Point2D.Double initHitbox) {
-		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, LIFESPAN_TIMER, ATTACK_POWER,
+		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, MAXIMUM_LIFESPAN, LIFESPAN_TIMER, ATTACK_POWER,
 				ATTACK_POWER_ACCELERATION, ATTACK_POWER_CAP, BLEED_DAMAGE, DAMAGE_ON_DEATH, ATTACK_RANGE,
 				ATTACK_COOLDOWN, ATTACK_COOLDOWN_TIMER, STUN_DURATION, BIND_DURATION, HEALING, HEALING_COOLDOWN,
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,

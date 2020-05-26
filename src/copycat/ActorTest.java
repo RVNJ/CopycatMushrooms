@@ -101,6 +101,8 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	static int blueBiohazardYOffset;
 	static int orangeBiohazardXOffset;
 	static int orangeBiohazardYOffset;
+	
+	static boolean debugEnabled = true;//false;
 
 	/**
 	 * delcares the image locations both contained in the filesystem and their
@@ -216,6 +218,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		for (Actor neutral : neutrals) {
 			neutral.draw(g, 0);
 			neutral.drawHitpointsBar(g);
+			neutral.drawLifespanBar(g);
 		}
 	}
 
@@ -236,71 +239,78 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		ArrayList<Actor> newZombies = new ArrayList<>();
 		ArrayList<Actor> newNeutrals = new ArrayList<>();
 
-//		spawns a resource using a multiplier that can be modified by spreading fertilizer
-		if (resourceSpawnChance >= (resourceSpawnChanceMultiplier * 9990)) {
-			Resource coin = new Resource(
-					new Point2D.Double((Math.floor((Math.random() * 350) / 50) * 50) + 50 + resourceXOffset,
-							(Math.floor((Math.random() * 250) / 50) * 50) + 50 + resourceYOffset),
-					new Point2D.Double(resourceImage.getWidth(), resourceImage.getHeight()));
-			neutrals.add(coin);
-		}
-//		spawns biohazards based on the random number, then modified by the current difficulty, shifting down if too high for the current score/difficulty
-		if (zombieSpawnChance >= (9800 + (200 - (difficultyLevel * 10)))) {
-			WeakBiohazard weakbiohazard = new WeakBiohazard(
-					new Point2D.Double(x + orangeBiohazardXOffset, y + orangeBiohazardYOffset),
-					new Point2D.Double(orangeBiohazardImage.getWidth(), orangeBiohazardImage.getHeight()));
-			zombies.add(weakbiohazard);
-		} else if ((zombieSpawnChance >= (9790) && zombieSpawnChance < (9800))) {
-			if (difficultyLevel >= 10) {
-				StrongBiohazard strongbiohazard = new StrongBiohazard(
-						new Point2D.Double(x + greenBiohazardXOffset, y + greenBiohazardYOffset),
-						new Point2D.Double(greenBiohazardImage.getWidth(), greenBiohazardImage.getHeight()));
-				zombies.add(strongbiohazard);
-			} else {
-				Biohazard biohazard = new Biohazard(new Point2D.Double(x + biohazardXOffset, y + biohazardYOffset),
-						new Point2D.Double(biohazardImage.getWidth(), biohazardImage.getHeight()));
-				zombies.add(biohazard);
-			}
-		} else if (zombieSpawnChance >= (9780) && zombieSpawnChance < (9790)) {
-			if (difficultyLevel >= 12) {
-				AcceleratorBiohazard acceleratorbiohazard = new AcceleratorBiohazard(
-						new Point2D.Double(x + greenBiohazardXOffset, y + greenBiohazardYOffset),
-						new Point2D.Double(greenBiohazardImage.getWidth(), greenBiohazardImage.getHeight()));
-				zombies.add(acceleratorbiohazard);
-			} else {
-				StrongBiohazard strongbiohazard = new StrongBiohazard(
-						new Point2D.Double(x + greenBiohazardXOffset, y + greenBiohazardYOffset),
-						new Point2D.Double(greenBiohazardImage.getWidth(), greenBiohazardImage.getHeight()));
-				zombies.add(strongbiohazard);
-			}
-		} else if (zombieSpawnChance >= (9760) && zombieSpawnChance < (9780)) {
-			if (difficultyLevel >= 14) {
+		if (debugEnabled) {
+			if (zombieSpawnChance >= (9980)) {
 				EmpoweredBiohazard empoweredbiohazard = new EmpoweredBiohazard(
 						new Point2D.Double(x + blackBiohazardXOffset, y + blackBiohazardYOffset),
 						new Point2D.Double(blackBiohazardImage.getWidth(), blackBiohazardImage.getHeight()));
 				zombies.add(empoweredbiohazard);
-			} else {
-				AcceleratorBiohazard acceleratorbiohazard = new AcceleratorBiohazard(
-						new Point2D.Double(x + greenBiohazardXOffset, y + greenBiohazardYOffset),
-						new Point2D.Double(greenBiohazardImage.getWidth(), greenBiohazardImage.getHeight()));
-				zombies.add(acceleratorbiohazard);
 			}
-		}
-//		disabled for presentability
-//		else if (zombieSpawnChance >= (9720) && zombieSpawnChance < (9775)) {
-//			HealerBiohazard healerbiohazard = new HealerBiohazard(new Point2D.Double(x + blueBiohazardXOffset, y + blueBiohazardYOffset), new Point2D.Double(blueBiohazardImage.getWidth(), blueBiohazardImage.getHeight()));
-//			zombies.add(healerbiohazard);
-//		}
-		else if (zombieSpawnChance >= (9740) && zombieSpawnChance < (9760)) {
-			Biohazard biohazard = new Biohazard(new Point2D.Double(x + biohazardXOffset, y + biohazardYOffset),
-					new Point2D.Double(biohazardImage.getWidth(), biohazardImage.getHeight()));
-			zombies.add(biohazard);
+		} else {
+//		spawns a resource using a multiplier that can be modified by spreading fertilizer
+			if (resourceSpawnChance >= (resourceSpawnChanceMultiplier * 9990)) {
+				Resource coin = new Resource(
+						new Point2D.Double((Math.floor((Math.random() * 350) / 50) * 50) + 50 + resourceXOffset,
+								(Math.floor((Math.random() * 250) / 50) * 50) + 50 + resourceYOffset),
+						new Point2D.Double(resourceImage.getWidth(), resourceImage.getHeight()));
+				neutrals.add(coin);
+			}
+//		spawns biohazards based on the random number, then modified by the current difficulty, shifting down if too high for the current score/difficulty
+			if (zombieSpawnChance >= (9800 + (200 - (difficultyLevel * 10)))) {
+				WeakBiohazard weakbiohazard = new WeakBiohazard(
+						new Point2D.Double(x + orangeBiohazardXOffset, y + orangeBiohazardYOffset),
+						new Point2D.Double(orangeBiohazardImage.getWidth(), orangeBiohazardImage.getHeight()));
+				zombies.add(weakbiohazard);
+			} else if ((zombieSpawnChance >= (9790) && zombieSpawnChance < (9800))) {
+				if (difficultyLevel >= 10) {
+					StrongBiohazard strongbiohazard = new StrongBiohazard(
+							new Point2D.Double(x + greenBiohazardXOffset, y + greenBiohazardYOffset),
+							new Point2D.Double(greenBiohazardImage.getWidth(), greenBiohazardImage.getHeight()));
+					zombies.add(strongbiohazard);
+				} else {
+					Biohazard biohazard = new Biohazard(new Point2D.Double(x + biohazardXOffset, y + biohazardYOffset),
+							new Point2D.Double(biohazardImage.getWidth(), biohazardImage.getHeight()));
+					zombies.add(biohazard);
+				}
+			} else if (zombieSpawnChance >= (9780) && zombieSpawnChance < (9790)) {
+				if (difficultyLevel >= 12) {
+					AcceleratorBiohazard acceleratorbiohazard = new AcceleratorBiohazard(
+							new Point2D.Double(x + greenBiohazardXOffset, y + greenBiohazardYOffset),
+							new Point2D.Double(greenBiohazardImage.getWidth(), greenBiohazardImage.getHeight()));
+					zombies.add(acceleratorbiohazard);
+				} else {
+					StrongBiohazard strongbiohazard = new StrongBiohazard(
+							new Point2D.Double(x + greenBiohazardXOffset, y + greenBiohazardYOffset),
+							new Point2D.Double(greenBiohazardImage.getWidth(), greenBiohazardImage.getHeight()));
+					zombies.add(strongbiohazard);
+				}
+			} else if (zombieSpawnChance >= (9760) && zombieSpawnChance < (9780)) {
+				if (difficultyLevel >= 14) {
+					EmpoweredBiohazard empoweredbiohazard = new EmpoweredBiohazard(
+							new Point2D.Double(x + blackBiohazardXOffset, y + blackBiohazardYOffset),
+							new Point2D.Double(blackBiohazardImage.getWidth(), blackBiohazardImage.getHeight()));
+					zombies.add(empoweredbiohazard);
+				} else {
+					AcceleratorBiohazard acceleratorbiohazard = new AcceleratorBiohazard(
+							new Point2D.Double(x + greenBiohazardXOffset, y + greenBiohazardYOffset),
+							new Point2D.Double(greenBiohazardImage.getWidth(), greenBiohazardImage.getHeight()));
+					zombies.add(acceleratorbiohazard);
+				}
+			} else if (zombieSpawnChance >= (9740) && zombieSpawnChance < (9760)) {
+				HealerBiohazard healerbiohazard = new HealerBiohazard(
+						new Point2D.Double(x + blueBiohazardXOffset, y + blueBiohazardYOffset),
+						new Point2D.Double(blueBiohazardImage.getWidth(), blueBiohazardImage.getHeight()));
+				zombies.add(healerbiohazard);
+			} else if (zombieSpawnChance >= (9720) && zombieSpawnChance < (9740)) {
+				Biohazard biohazard = new Biohazard(new Point2D.Double(x + biohazardXOffset, y + biohazardYOffset),
+						new Point2D.Double(biohazardImage.getWidth(), biohazardImage.getHeight()));
+				zombies.add(biohazard);
+			}
 		}
 
 		for (Actor plant : plants) {
-//			disabled for presentability
-			if(plant instanceof DoubleMushroom) {
-				DoubleMushroom doublemushroom = (DoubleMushroom)plant;
+			if (plant instanceof DoubleMushroom) {
+				DoubleMushroom doublemushroom = (DoubleMushroom) plant;
 				newPlants.addAll(doublemushroom.mushroomsToAdd);
 			}
 			plant.update();
@@ -313,7 +323,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 					plant.move();
 				}
 			} else if (plant.getPosition().getX() > 500) {
-				score += 500;
+				score += (2*plant.getCost());
 			}
 		}
 		plants = newPlants;
@@ -343,7 +353,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			}
 		}
 //		increases score by 2 with every iteration
-		score += 5;
+		score += 10;
 //		sets the score label
 		String scoreSetter = (Integer.toString(score));
 		scoreLabel.setText("Points: " + scoreSetter);
@@ -526,7 +536,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 
 //spawns a red mushroom, uses a generic spawn code
 	public void spawnRedMushroom(MouseEvent e) {
-		int cost = 100;
+		int cost = new RedMushroom(null, null).getCost();
 		if (score >= cost) {
 			if (e.getX() < (10 * gridWidth) && e.getX() > (0 * gridWidth) && e.getY() >= gridHeight) {
 				RedMushroom redmushroom = new RedMushroom(setCoords(setImageHeightWidth(redMushroomImage), e),
@@ -543,7 +553,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 
 	// spawns a green mushroom, uses a generic spawn code
 	public void spawnGreenMushroom(MouseEvent e) {
-		int cost = 250;
+		int cost = new GreenMushroom(null, null).getCost();
 		if (score >= cost) {
 			if (e.getX() < (10 * gridWidth) && e.getX() > (0 * gridWidth) && e.getY() >= gridHeight) {
 				GreenMushroom greenmushroom = new GreenMushroom(setCoords(setImageHeightWidth(greenMushroomImage), e),
@@ -558,12 +568,11 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		}
 	}
 
-//	disabled for presentability
 //	spawns a blue mushroom, uses a generic spawn code
 	public void spawnBlueMushroom(MouseEvent e) {
-		int cost = 10;// 100;
+		int cost = new BlueMushroom(null, null).getCost();
 		if (score >= cost) {
-			if (e.getX() < (10 * gridWidth) && e.getX() > (0 * gridWidth)  && e.getY() >= gridHeight) {
+			if (e.getX() < (10 * gridWidth) && e.getX() > (0 * gridWidth) && e.getY() >= gridHeight) {
 				BlueMushroom bluemushroom = new BlueMushroom(setCoords(setImageHeightWidth(blueMushroomImage), e),
 						setImageHeightWidth(blueMushroomImage));
 				plants.add(bluemushroom);
@@ -575,13 +584,12 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			System.out.println("You do not have enough points to plant a blue mushroom! (Cost: " + cost + ")");
 		}
 	}
-//
-//	disabled for presentability	
+
 //	spawns a double mushroom, uses a generic spawn code
 	public void spawnDoubleMushroom(MouseEvent e) {
-		int cost = 10;// 100;
+		int cost = new DoubleMushroom(null, null).getCost();
 		if (score >= cost) {
-			if (e.getX() < (10 * gridWidth) && e.getX() > (0 * gridWidth)  && e.getY() >= gridHeight) {
+			if (e.getX() < (10 * gridWidth) && e.getX() > (0 * gridWidth) && e.getY() >= gridHeight) {
 				DoubleMushroom doublemushroom = new DoubleMushroom(
 						setCoords(setImageHeightWidth(doubleMushroomImage), e),
 						setImageHeightWidth(doubleMushroomImage));
@@ -598,7 +606,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	// checks if there are fewer than 5 bags of fertilizer (cannot spawn more than
 	// 5), spawns another bag if under 5, uses a generic spawn code
 	public void spawnFertilizer(MouseEvent e) {
-		int cost = 1000;
+		int cost = new Fertilizer(null, null).getCost();
 		if (score >= cost) {
 			if (e.getX() < (10 * gridWidth) && e.getX() > (0 * gridWidth) && e.getY() >= gridHeight) {
 				Fertilizer.fertilizerCount = 0;
@@ -629,7 +637,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	 * @param e
 	 */
 	public void spawnFence(MouseEvent e) {
-		int cost = 2000;
+		int cost = new Fence(null, null).getCost();
 		if (score >= cost) {
 			if (e.getX() < (10 * gridWidth) && e.getX() > (0 * gridWidth) && e.getY() >= gridHeight) {
 				Fence fence = new Fence(setCoords(setImageHeightWidth(fenceImage), e), setImageHeightWidth(fenceImage));
@@ -650,7 +658,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	 * @param e
 	 */
 	public void spawnPoison(MouseEvent e) {
-		int cost = 10000;
+		int cost = new Poison(null, null).getCost();
 		if (score >= cost) {
 			if (e.getX() < (10 * gridWidth) && e.getX() > (0 * gridWidth) && e.getY() >= gridHeight) {
 				Poison poison = new Poison(setCoords(setImageHeightWidth(poisonImage), e),
@@ -673,7 +681,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	 * @param e
 	 */
 	public void spawnNuclearBomb(MouseEvent e) {
-		int cost = 50000;
+		int cost = new NuclearBomb(null, null).getCost();
 		if (score >= cost) {
 			if (e.getX() < (10 * gridWidth) && e.getX() > (0 * gridWidth) && e.getY() >= gridHeight) {
 				NuclearBomb bomb = new NuclearBomb(setCoords(setImageHeightWidth(nuclearBombImage), e),
@@ -754,14 +762,14 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			break;
 		case 1:
 //			if (!cellIsOccupied(e)) {
-				spawnRedMushroom(e);
+			spawnRedMushroom(e);
 //			} else {
 //				System.out.println("this cell is already occupied");
 //			}
 			break;
 		case 2:
 //			if (!cellIsOccupied(e)) {
-				spawnGreenMushroom(e);
+			spawnGreenMushroom(e);
 //			} else {
 //				System.out.println("this cell is already occupied");
 //			}
@@ -769,7 +777,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		case 3:
 //			if(!cellIsOccupied(e)){
 //			System.out.println("option disabled");
-				spawnBlueMushroom(e);
+			spawnBlueMushroom(e);
 //			} else {
 //				System.out.println("this cell is already occupied");
 //			}
@@ -777,7 +785,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		case 4:
 //			if(!cellIsOccupied(e)){
 //			System.out.println("option disabled");
-				spawnDoubleMushroom(e);
+			spawnDoubleMushroom(e);
 //			} else {
 //				System.out.println("this cell is already occupied");
 //			}
@@ -798,14 +806,14 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			break;
 		case 7:
 //			if (!cellIsOccupied(e)) {
-				spawnPoison(e);
+			spawnPoison(e);
 //			} else {
 //				System.out.println("this cell is already occupied");
 //			}
 			break;
 		case 8:
 //			if (!cellIsOccupied(e)) {
-				spawnNuclearBomb(e);
+			spawnNuclearBomb(e);
 //			} else {
 //				System.out.println("this cell is already occupied");
 //			}

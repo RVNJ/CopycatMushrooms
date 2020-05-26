@@ -18,16 +18,17 @@ public class StrongBiohazard extends Actor {
 		}
 	}
 	
-	static private final int MAXIMUM_HITPOINTS = 1000;
+	static private final int MAXIMUM_HITPOINTS = 400;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
-	static private final int LIFESPAN_TIMER = 999_999_999;
+	static private final int MAXIMUM_LIFESPAN = 999_999_999;
+	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
 	static private final int ATTACK_POWER = 200;
 	static private final int ATTACK_POWER_ACCELERATION = 2;
 	static private final int ATTACK_POWER_CAP = 400;
 	static private final int BLEED_DAMAGE = 0;
 	static private final int DAMAGE_ON_DEATH = 0;
 	static private final int ATTACK_RANGE = 1;
-	static private final int ATTACK_COOLDOWN = 2_000;
+	static private final int ATTACK_COOLDOWN = 80;
 	static private final int ATTACK_COOLDOWN_TIMER = 0;
 	static private final int STUN_DURATION = 0;
 	static private final int BIND_DURATION = 0;
@@ -39,19 +40,14 @@ public class StrongBiohazard extends Actor {
 	static private final int DAMAGE_REDUCTION_TIMER = DAMAGE_REDUCTION_DURATION;
 	static private final double DAMAGE_REDUCTION_AMOUNT = 0.00;
 	static private final boolean FLYING = false;
-	static private final double SPEED = -0.2;
+	static private final double SPEED = -1;
 	static private final double SPEED_ACCELERATION = 0;
 	static private final double SPEED_ACCELERATION_CAP = SPEED;
 	static private final int LEVEL = 1;
-	static private final int COST = 400;
+	static private final int COST = 0;
 
-	public StrongBiohazard(Point2D.Double startingPosition, Point2D.Double initHitbox) {// Point2D.Double
-																						// startingPosition,
-																						// Point2D.Double initHitbox,
-																						// BufferedImage img, int
-																						// health, int coolDown, double
-																						// speed, int attackDamage) {
-		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, LIFESPAN_TIMER, ATTACK_POWER,
+	public StrongBiohazard(Point2D.Double startingPosition, Point2D.Double initHitbox) {
+		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, MAXIMUM_LIFESPAN, LIFESPAN_TIMER, ATTACK_POWER,
 				ATTACK_POWER_ACCELERATION, ATTACK_POWER_CAP, BLEED_DAMAGE, DAMAGE_ON_DEATH, ATTACK_RANGE,
 				ATTACK_COOLDOWN, ATTACK_COOLDOWN_TIMER, STUN_DURATION, BIND_DURATION, HEALING, HEALING_COOLDOWN,
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
