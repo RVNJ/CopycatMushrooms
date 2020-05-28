@@ -1,5 +1,7 @@
 package copycat;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -53,6 +55,17 @@ public class AcceleratorBiohazard extends Actor {
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
 				DAMAGE_REDUCTION_AMOUNT, FLYING, SPEED, SPEED_ACCELERATION, SPEED_ACCELERATION_CAP, LEVEL, COST);
 	};
+	
+	@Override
+	public void drawMaximumEffectBar(Graphics g) {
+		Point2D.Double pos = this.getPosition();
+		Point2D.Double box = this.getHitbox();
+		g.setColor(Color.BLACK);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 10, (int) box.getX(), 3);
+		g.setColor(new Color(192, 192, 64));
+		g.fillRect((int) pos.getX(), (int) pos.getY() - 10,
+				(int) (box.getX() * this.attackPower / (double) this.attackPowerCap), 3);
+	}
 
 	@Override
 	public void update() {

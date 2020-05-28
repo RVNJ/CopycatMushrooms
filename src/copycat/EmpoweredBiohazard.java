@@ -1,12 +1,14 @@
 package copycat;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 
 public class EmpoweredBiohazard extends Actor {
 
@@ -67,6 +69,25 @@ public class EmpoweredBiohazard extends Actor {
 		g.drawRect((int)pos.getX() - 5,(int) pos.getY() - 5, (int)(box.getX()+9), 3);  
 	    g.setColor(new Color(255,32,32));  
 		g.fillRect((int)pos.getX() - 5,(int) pos.getY() - 5, (int)((box.getX()+9) * this.hitpoints / (double)this.maximumHitpoints), 3);
+	}
+	
+	public Point2D.Double setCoordsImplied(Point2D.Double imageLoc) {
+		EmpoweredBiohazard biohazard = new EmpoweredBiohazard(null,null); 
+		biohazard.spawnThreeByThreeAreaOfEffect();
+//		int a = (int) (((double) gridWidth * (Math.floor((1 / (double) gridWidth) * (double) getPosition().getX())))
+//				+ (0.5 * ((double) gridWidth - (double) imageLoc.x)));
+//		int b = (int) (((double) gridHeight * (Math.floor((1 / (double) gridHeight) * (double) getY())))
+//				+ (0.5 * ((double) gridHeight - (double) imageLoc.y)));
+//
+		Point2D.Double abCoords = new Point2D.Double(biohazard.getPosition().getX(), biohazard.getPosition().getY());
+		return abCoords;
+	}
+	
+	public void spawnThreeByThreeAreaOfEffect() {
+		double xLoc = getPosition().getX()-50;
+		double yLoc = getPosition().getY()-50;
+			AreaOfEffect threeByThreeAreaOfEffect = new AreaOfEffect(setCoordsImplied(new Point2D.Double(xLoc,yLoc)), hitbox);
+			ActorTest.zombies.add(threeByThreeAreaOfEffect);
 	}
 
 	/**

@@ -60,6 +60,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	static BufferedImage redBiohazardImage;
 	static BufferedImage blueBiohazardImage;
 	static BufferedImage orangeBiohazardImage;
+	static BufferedImage threeByThreeAreaOfEffectImage;
 
 	private Timer timer;
 	public static ArrayList<Actor> plants;
@@ -101,6 +102,8 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	static int blueBiohazardYOffset;
 	static int orangeBiohazardXOffset;
 	static int orangeBiohazardYOffset;
+	static int ThreeByThreeAreaOfEffectXOffset;
+	static int ThreeByThreeAreaOfEffectYOffset;
 	
 	static boolean debugEnabled = true;//false;
 
@@ -118,6 +121,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			fenceImage = ImageIO.read(new File("src/copycat/actorimages/fence.png"));
 			poisonImage = ImageIO.read(new File("src/copycat/actorimages/poison.png"));
 			nuclearBombImage = ImageIO.read(new File("src/copycat/actorimages/nuclearbomb.png"));
+			threeByThreeAreaOfEffectImage = ImageIO.read(new File("src/copycat/actorimages/3x3aoe_black.png"));
 
 			goldenMushroomImage = ImageIO.read(new File("src/copycat/actorimages/goldenmushroom.png"));
 			goldenMushroomXOffset = (int) (double) (0.5 * (gridWidth - goldenMushroomImage.getWidth()));
@@ -695,6 +699,9 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			System.out.println("You do not have enough points to drop a nuclear bomb! (Cost: " + cost + ")");
 		}
 	}
+	
+
+	
 
 	/**
 	 * used in generic spawn to receive the height and width stats for the image
@@ -728,6 +735,8 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		Point2D.Double abCoords = new Point2D.Double(a, b);
 		return abCoords;
 	}
+	
+	
 
 	/**
 	 * when the mouse is clicked first part (loop): pick up coin if it exists on the
