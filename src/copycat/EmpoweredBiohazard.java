@@ -22,17 +22,17 @@ public class EmpoweredBiohazard extends Actor {
 		}
 	}
 
-	static private final int MAXIMUM_HITPOINTS = 10_000;
+	static private final int MAXIMUM_HITPOINTS = 5_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
 	static private final int MAXIMUM_LIFESPAN = 999_999_999;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
 	static private final int ATTACK_POWER = 200;
-	static private final int ATTACK_POWER_ACCELERATION = 100;
+	static private final int ATTACK_POWER_ACCELERATION = 150;
 	static private final int ATTACK_POWER_CAP = 2_000;
-	static private final int BLEED_DAMAGE = 50;
-	static private final int DAMAGE_ON_DEATH = 200;
+	static private final int BLEED_DAMAGE = 0;
+	static private final int DAMAGE_ON_DEATH = 1_00;
 	static private final int ATTACK_RANGE = 1;
-	static private final int ATTACK_COOLDOWN = 100;
+	static private final int ATTACK_COOLDOWN = 50;
 	static private final int ATTACK_COOLDOWN_TIMER = 0;
 	static private final int STUN_DURATION = 0;
 	static private final int BIND_DURATION = 0;
@@ -46,7 +46,7 @@ public class EmpoweredBiohazard extends Actor {
 	static private final boolean FLYING = false;
 	static private final double SPEED = -0.2;
 	static private final double SPEED_ACCELERATION = 0;
-	static private final double SPEED_ACCELERATION_CAP = -0.2;
+	static private final double SPEED_ACCELERATION_CAP = SPEED;
 	static private final int LEVEL = 1;
 	static private final int COST = 0;
 
@@ -66,29 +66,22 @@ public class EmpoweredBiohazard extends Actor {
 		Point2D.Double pos = this.getPosition();
 		Point2D.Double box = this.getHitbox();
 	    g.setColor(Color.BLACK);  
-		g.drawRect((int)pos.getX() - 5,(int) pos.getY() - 5, (int)(box.getX()+9), 3);  
-	    g.setColor(new Color(255,32,32));  
-		g.fillRect((int)pos.getX() - 5,(int) pos.getY() - 5, (int)((box.getX()+9) * this.hitpoints / (double)this.maximumHitpoints), 3);
+		g.drawRect((int)pos.getX() - 10,(int) pos.getY() - 8, (int)(box.getX()+19), 3);  
+	    g.setColor(new Color(255,40,40));  
+		g.fillRect((int)pos.getX() - 10,(int) pos.getY() - 8, (int)((box.getX()+19) * this.hitpoints / (double)this.maximumHitpoints), 3);
+	}
+	public void drawMaximumEffectBar(Graphics g) {
+		Point2D.Double pos = this.getPosition();
+		Point2D.Double box = this.getHitbox();
+	    g.setColor(Color.BLACK);  
+		g.drawRect((int)pos.getX() - 10,(int) pos.getY() - 5, (int)(box.getX()+19), 3);  
+	    g.setColor(new Color(255,255,40));  
+		g.fillRect((int)pos.getX() - 10,(int) pos.getY() - 5, (int)((box.getX()+19) * this.attackPower / (double)this.attackPowerCap), 3);
 	}
 	
-	public Point2D.Double setCoordsImplied(Point2D.Double imageLoc) {
-		EmpoweredBiohazard biohazard = new EmpoweredBiohazard(null,null); 
-		biohazard.spawnThreeByThreeAreaOfEffect();
-//		int a = (int) (((double) gridWidth * (Math.floor((1 / (double) gridWidth) * (double) getPosition().getX())))
-//				+ (0.5 * ((double) gridWidth - (double) imageLoc.x)));
-//		int b = (int) (((double) gridHeight * (Math.floor((1 / (double) gridHeight) * (double) getY())))
-//				+ (0.5 * ((double) gridHeight - (double) imageLoc.y)));
-//
-		Point2D.Double abCoords = new Point2D.Double(biohazard.getPosition().getX(), biohazard.getPosition().getY());
-		return abCoords;
-	}
-	
-	public void spawnThreeByThreeAreaOfEffect() {
-		double xLoc = getPosition().getX()-50;
-		double yLoc = getPosition().getY()-50;
-			AreaOfEffect threeByThreeAreaOfEffect = new AreaOfEffect(setCoordsImplied(new Point2D.Double(xLoc,yLoc)), hitbox);
-			ActorTest.zombies.add(threeByThreeAreaOfEffect);
-	}
+//	public void spawnThreeByThreeAreaOfEffect(Point2D.Double spawnLocation) {
+//		
+//	}
 
 	/**
 	 * overrides the update to increase its damage per cooldown time by 100, up to a maximum of 2000, only attacks plants and
@@ -115,7 +108,6 @@ public class EmpoweredBiohazard extends Actor {
 			}
 		} else if (!this.isAlive()) {
 			ActorTest.score += 10000;
-			applyDeathDamage();
 		}
 	}
 }

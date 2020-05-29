@@ -1,5 +1,6 @@
 package copycat;
 
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,7 +12,7 @@ public class AreaOfEffect extends Actor {
 	static private BufferedImage IMG;
 	static {
 		try {
-			IMG = ImageIO.read(new File("src/copycat/actorimages/3x3aoe_black.png"));
+			IMG = ImageIO.read(new File("src/copycat/actorimages/3x3aoe.png"));
 		} catch (IOException e) {
 			System.out.println("you're bad");
 			e.printStackTrace();
@@ -47,16 +48,30 @@ public class AreaOfEffect extends Actor {
 	static private final int COST = 0;
 
 	public AreaOfEffect(Point2D.Double startingPosition, Point2D.Double initHitbox) {
-		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, MAXIMUM_LIFESPAN, LIFESPAN_TIMER, ATTACK_POWER,
-				ATTACK_POWER_ACCELERATION, ATTACK_POWER_CAP, BLEED_DAMAGE, DAMAGE_ON_DEATH, ATTACK_RANGE,
+		super(startingPosition, initHitbox, IMG, MAXIMUM_HITPOINTS, HITPOINTS, MAXIMUM_LIFESPAN, LIFESPAN_TIMER,
+				ATTACK_POWER, ATTACK_POWER_ACCELERATION, ATTACK_POWER_CAP, BLEED_DAMAGE, DAMAGE_ON_DEATH, ATTACK_RANGE,
 				ATTACK_COOLDOWN, ATTACK_COOLDOWN_TIMER, STUN_DURATION, BIND_DURATION, HEALING, HEALING_COOLDOWN,
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
 				DAMAGE_REDUCTION_AMOUNT, FLYING, SPEED, SPEED_ACCELERATION, SPEED_ACCELERATION_CAP, LEVEL, COST);
 	};
 
 	/**
-	 * damages all plants and zombies, does not affect any neutrals except for itself
+	 * damages all plants and zombies, does not affect any neutrals except for
+	 * itself
 	 */
+
+	@Override
+	public void drawHitpointsBar(Graphics g) {
+//		super.drawHitpointsBar(g);
+	}
+	@Override
+	public void drawLifespanBar(Graphics g) {
+//		super.drawHitpointsBar(g);
+	}
+	@Override
+	public void drawMaximumEffectBar(Graphics g) {
+//		super.drawHitpointsBar(g);
+	}
 	
 	@Override
 	public void update() {
@@ -70,15 +85,6 @@ public class AreaOfEffect extends Actor {
 			if (!(neutral instanceof NuclearBomb) && !(neutral instanceof Poison)) {
 				this.attack(neutral);
 			}
-		}
-		this.changeLifespan(-100);
-	}
-
-	/**
-	 * overrides the attack method to allow it to attack everything without needing to collide first
-	 */
-	@Override
-	public void attack(Actor other) {
-		other.changeHitpoints(-attackPower);
+		}		
 	}
 }

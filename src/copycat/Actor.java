@@ -88,7 +88,18 @@ public class Actor extends Sprite implements Attack {
 
 	public void update() {
 		isColliding = false;
-		attackCooldownTimer--;
+		if(attackCooldownTimer >= 1) {
+			attackCooldownTimer--;
+		}
+		if (immunityTimer >= 1) {
+			immunityTimer--;
+		}
+		if (damageReductionTimer >= 1) {
+			damageReductionTimer--;
+		}
+//		if(lifespanTimer >= 1 && lifespanTimer < 999_999_999) {
+//			changeLifespan(-1000);
+//		}
 	}
 
 	public boolean readyForAttack() {
@@ -115,7 +126,7 @@ public class Actor extends Sprite implements Attack {
 	}
 	
 	public Point2D.Double applyDeathDamage() {
-		System.out.println(this.getPosition().toString());
+//		System.out.println(this.getPosition().toString());
 		return this.getPosition(); 
 	}
 
@@ -124,7 +135,7 @@ public class Actor extends Sprite implements Attack {
 		Point2D.Double box = this.getHitbox();
 		g.setColor(Color.BLACK);
 		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
-		g.setColor(new Color(255, 32, 32));
+		g.setColor(new Color(255, 40, 40));
 		g.fillRect((int) pos.getX(), (int) pos.getY() - 5,
 				(int) (box.getX() * this.hitpoints / (double) this.maximumHitpoints), 3);
 	}
@@ -133,9 +144,9 @@ public class Actor extends Sprite implements Attack {
 		Point2D.Double pos = this.getPosition();
 		Point2D.Double box = this.getHitbox();
 		g.setColor(Color.BLACK);
-		g.drawRect((int) pos.getX(), (int) pos.getY() - 10, (int) box.getX(), 3);
-		g.setColor(new Color(32, 32, 255));
-		g.fillRect((int) pos.getX(), (int) pos.getY() - 10,
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+		g.setColor(new Color(40, 40, 255));
+		g.fillRect((int) pos.getX(), (int) pos.getY() - 5,
 				(int) (box.getX() * this.lifespanTimer / (double) this.maximumLifespan), 3);
 	}
 
@@ -143,9 +154,9 @@ public class Actor extends Sprite implements Attack {
 		Point2D.Double pos = this.getPosition();
 		Point2D.Double box = this.getHitbox();
 		g.setColor(Color.BLACK);
-		g.drawRect((int) pos.getX(), (int) pos.getY() - 10, (int) box.getX(), 3);
-		g.setColor(new Color(192, 192, 64));
-		g.fillRect((int) pos.getX(), (int) pos.getY() - 10,
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+		g.setColor(new Color(255, 255, 40));
+		g.fillRect((int) pos.getX(), (int) pos.getY() - 5,
 				(int) (box.getX() * this.attackPower / (double) this.attackPowerCap), 3);
 	}
 

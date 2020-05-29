@@ -102,8 +102,8 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	static int blueBiohazardYOffset;
 	static int orangeBiohazardXOffset;
 	static int orangeBiohazardYOffset;
-	static int ThreeByThreeAreaOfEffectXOffset;
-	static int ThreeByThreeAreaOfEffectYOffset;
+	static int threeByThreeAreaOfEffectXOffset;
+	static int threeByThreeAreaOfEffectYOffset;
 	
 	static boolean debugEnabled = true;//false;
 
@@ -121,7 +121,10 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			fenceImage = ImageIO.read(new File("src/copycat/actorimages/fence.png"));
 			poisonImage = ImageIO.read(new File("src/copycat/actorimages/poison.png"));
 			nuclearBombImage = ImageIO.read(new File("src/copycat/actorimages/nuclearbomb.png"));
-			threeByThreeAreaOfEffectImage = ImageIO.read(new File("src/copycat/actorimages/3x3aoe_black.png"));
+			
+			threeByThreeAreaOfEffectImage = ImageIO.read(new File("src/copycat/actorimages/3x3aoe.png"));
+			threeByThreeAreaOfEffectXOffset = (int) (double) (0.5 * (gridWidth - threeByThreeAreaOfEffectImage.getWidth())); 
+			threeByThreeAreaOfEffectYOffset = (int) (double) (0.5 * (gridHeight - threeByThreeAreaOfEffectImage.getHeight())); 
 
 			goldenMushroomImage = ImageIO.read(new File("src/copycat/actorimages/goldenmushroom.png"));
 			goldenMushroomXOffset = (int) (double) (0.5 * (gridWidth - goldenMushroomImage.getWidth()));
@@ -214,15 +217,25 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		for (Actor plant : plants) {
 			plant.draw(g, 0);
 			plant.drawHitpointsBar(g);
+			if(plant.attackPowerAcceleration > 0) {
+				plant.drawMaximumEffectBar(g);
+			}
 		}
 		for (Actor zombie : zombies) {
 			zombie.draw(g, 0);
 			zombie.drawHitpointsBar(g);
+			zombie.drawMaximumEffectBar(g);
+			if(zombie.attackPowerAcceleration > 0) {
+				zombie.drawMaximumEffectBar(g);
+			}
+			
 		}
 		for (Actor neutral : neutrals) {
 			neutral.draw(g, 0);
 			neutral.drawHitpointsBar(g);
-			neutral.drawLifespanBar(g);
+			if(neutral.lifespanTimer < 999_999_999) {
+				neutral.drawLifespanBar(g);
+			}
 		}
 	}
 
@@ -244,12 +257,16 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		ArrayList<Actor> newNeutrals = new ArrayList<>();
 
 		if (debugEnabled) {
-			if (zombieSpawnChance >= (9980)) {
-				EmpoweredBiohazard empoweredbiohazard = new EmpoweredBiohazard(
-						new Point2D.Double(x + blackBiohazardXOffset, y + blackBiohazardYOffset),
-						new Point2D.Double(blackBiohazardImage.getWidth(), blackBiohazardImage.getHeight()));
-				zombies.add(empoweredbiohazard);
+			if (zombieSpawnChance >= (9950)) {
+				AcceleratorBiohazard acceleratorBiohazard = new AcceleratorBiohazard(
+						new Point2D.Double(x + redBiohazardXOffset, y + redBiohazardYOffset),
+						new Point2D.Double(redBiohazardImage.getWidth(), redBiohazardImage.getHeight()));
+				zombies.add(acceleratorBiohazard);
 			}
+//			if (zombieSpawnChance >= (9950)) {
+//				EmpoweredBiohazard empoweredBiohazard = new EmpoweredBiohazard(new Point2D.Double(x + blackBiohazardXOffset, y + blackBiohazardYOffset), new Point2D.Double(blackBiohazardImage.getWidth(), blackBiohazardImage.getHeight()));
+//				zombies.add(empoweredBiohazard);
+//			}
 		} else {
 //		spawns a resource using a multiplier that can be modified by spreading fertilizer
 			if (resourceSpawnChance >= (resourceSpawnChanceMultiplier * 9990)) {
@@ -338,6 +355,12 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 				newZombies.add(zombie);
 				zombie.move();
 			}
+			if(!zombie.isAlive() && zombie instanceof EmpoweredBiohazard) {
+				double xLoc = zombie.getPosition().getX()-50;
+				double yLoc = zombie.getPosition().getY()-50;
+				AreaOfEffect threeByThreeAreaOfEffect = new AreaOfEffect((new Point2D.Double(xLoc+threeByThreeAreaOfEffectXOffset,yLoc+threeByThreeAreaOfEffectYOffset)), new Point2D.Double(threeByThreeAreaOfEffectImage.getWidth(), threeByThreeAreaOfEffectImage.getHeight()));
+				newZombies.add(threeByThreeAreaOfEffect);
+			}
 		}
 		zombies = newZombies;
 
@@ -346,6 +369,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			if (neutral.isAlive()) {
 				newNeutrals.add(neutral);
 			}
+			
 		}
 		neutrals = newNeutrals;
 
@@ -735,8 +759,6 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		Point2D.Double abCoords = new Point2D.Double(a, b);
 		return abCoords;
 	}
-	
-	
 
 	/**
 	 * when the mouse is clicked first part (loop): pick up coin if it exists on the
