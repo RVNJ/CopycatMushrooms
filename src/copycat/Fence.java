@@ -1,5 +1,7 @@
 package copycat;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,7 +20,7 @@ public class Fence extends Actor {
 		}
 	}
 
-	static private final int MAXIMUM_HITPOINTS = 2_500;
+	static private final int MAXIMUM_HITPOINTS = 20_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
 	static private final int MAXIMUM_LIFESPAN = 3_600_000;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
@@ -53,4 +55,28 @@ public class Fence extends Actor {
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
 				DAMAGE_REDUCTION_AMOUNT, FLYING, SPEED, SPEED_ACCELERATION, SPEED_ACCELERATION_CAP, LEVEL, COST);
 	};
+	
+	@Override
+	public void drawHitpointsBar(Graphics g) {
+		Point2D.Double pos = this.getPosition();
+		Point2D.Double box = this.getHitbox();
+		g.setColor(Color.BLACK);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 8, (int) box.getX(), 3);
+		g.setColor(new Color(255, 40, 40));
+		g.fillRect((int) pos.getX(), (int) pos.getY() - 8,
+				(int) (box.getX() * this.hitpoints / (double) this.maximumHitpoints), 3);
+	}
+	@Override
+	public void drawLifespanBar(Graphics g) {
+		Point2D.Double pos = this.getPosition();
+		Point2D.Double box = this.getHitbox();
+		g.setColor(Color.BLACK);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+		g.setColor(new Color(255, 255, 40));
+		g.fillRect((int) pos.getX(), (int) pos.getY() - 5,
+				(int) (box.getX() * this.lifespanTimer / (double) this.maximumLifespan), 3);
+	}
+	@Override
+	public void drawMaximumEffectBar(Graphics g) {
+	}
 }

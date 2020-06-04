@@ -22,17 +22,17 @@ public class EmpoweredBiohazard extends Actor {
 		}
 	}
 
-	static private final int MAXIMUM_HITPOINTS = 5_000;
+	static private final int MAXIMUM_HITPOINTS = 50_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
 	static private final int MAXIMUM_LIFESPAN = 999_999_999;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
-	static private final int ATTACK_POWER = 200;
-	static private final int ATTACK_POWER_ACCELERATION = 150;
-	static private final int ATTACK_POWER_CAP = 2_000;
+	static private final int ATTACK_POWER = 2_000;
+	static private final int ATTACK_POWER_ACCELERATION = 2_000;
+	static private final int ATTACK_POWER_CAP = 20_000;
 	static private final int BLEED_DAMAGE = 0;
 	static private final int DAMAGE_ON_DEATH = 1_00;
 	static private final int ATTACK_RANGE = 1;
-	static private final int ATTACK_COOLDOWN = 50;
+	static private final int ATTACK_COOLDOWN = 100;
 	static private final int ATTACK_COOLDOWN_TIMER = 0;
 	static private final int STUN_DURATION = 0;
 	static private final int BIND_DURATION = 0;
@@ -70,6 +70,10 @@ public class EmpoweredBiohazard extends Actor {
 	    g.setColor(new Color(255,40,40));  
 		g.fillRect((int)pos.getX() - 10,(int) pos.getY() - 8, (int)((box.getX()+19) * this.hitpoints / (double)this.maximumHitpoints), 3);
 	}
+	@Override
+	public void drawLifespanBar(Graphics g) {
+	}
+	@Override
 	public void drawMaximumEffectBar(Graphics g) {
 		Point2D.Double pos = this.getPosition();
 		Point2D.Double box = this.getHitbox();
@@ -100,7 +104,7 @@ public class EmpoweredBiohazard extends Actor {
 					this.attack(neutral);
 				}
 			}
-			if(this.attackPower < 2000) {
+			if(this.attackPower < attackPowerCap) {
 				if(this.readyForAttack()) {
 					this.attackPower += attackPowerAcceleration;
 					this.resetAttackCooldown();

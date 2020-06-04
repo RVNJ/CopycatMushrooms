@@ -122,7 +122,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			poisonImage = ImageIO.read(new File("src/copycat/actorimages/poison.png"));
 			nuclearBombImage = ImageIO.read(new File("src/copycat/actorimages/nuclearbomb.png"));
 			
-			threeByThreeAreaOfEffectImage = ImageIO.read(new File("src/copycat/actorimages/3x3aoe.png"));
+			threeByThreeAreaOfEffectImage = ImageIO.read(new File("src/copycat/actorimages/3x3aoe_black.png"));
 			threeByThreeAreaOfEffectXOffset = (int) (double) (0.5 * (gridWidth - threeByThreeAreaOfEffectImage.getWidth())); 
 			threeByThreeAreaOfEffectYOffset = (int) (double) (0.5 * (gridHeight - threeByThreeAreaOfEffectImage.getHeight())); 
 
@@ -217,25 +217,21 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		for (Actor plant : plants) {
 			plant.draw(g, 0);
 			plant.drawHitpointsBar(g);
-			if(plant.attackPowerAcceleration > 0) {
-				plant.drawMaximumEffectBar(g);
-			}
+			plant.drawLifespanBar(g);
+			plant.drawMaximumEffectBar(g);
 		}
 		for (Actor zombie : zombies) {
 			zombie.draw(g, 0);
 			zombie.drawHitpointsBar(g);
+			zombie.drawLifespanBar(g);
 			zombie.drawMaximumEffectBar(g);
-			if(zombie.attackPowerAcceleration > 0) {
-				zombie.drawMaximumEffectBar(g);
-			}
 			
 		}
 		for (Actor neutral : neutrals) {
 			neutral.draw(g, 0);
 			neutral.drawHitpointsBar(g);
-			if(neutral.lifespanTimer < 999_999_999) {
-				neutral.drawLifespanBar(g);
-			}
+			neutral.drawLifespanBar(g);
+			neutral.drawMaximumEffectBar(g);
 		}
 	}
 
@@ -257,22 +253,22 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		ArrayList<Actor> newNeutrals = new ArrayList<>();
 
 		if (debugEnabled) {
-			if (zombieSpawnChance >= (9950)) {
-				AcceleratorBiohazard acceleratorBiohazard = new AcceleratorBiohazard(
-						new Point2D.Double(x + redBiohazardXOffset, y + redBiohazardYOffset),
-						new Point2D.Double(redBiohazardImage.getWidth(), redBiohazardImage.getHeight()));
-				zombies.add(acceleratorBiohazard);
-			}
-//			if (zombieSpawnChance >= (9950)) {
-//				EmpoweredBiohazard empoweredBiohazard = new EmpoweredBiohazard(new Point2D.Double(x + blackBiohazardXOffset, y + blackBiohazardYOffset), new Point2D.Double(blackBiohazardImage.getWidth(), blackBiohazardImage.getHeight()));
-//				zombies.add(empoweredBiohazard);
+//			if (zombieSpawnChance >= (9920)) {
+//				Biohazard biohazard = new Biohazard(
+//						new Point2D.Double(x + blackBiohazardXOffset, y + blackBiohazardYOffset),
+//						new Point2D.Double(blackBiohazardImage.getWidth(), blackBiohazardImage.getHeight()));
+//				zombies.add(biohazard);
 //			}
+			if (zombieSpawnChance >= (9950)) {
+				EmpoweredBiohazard empoweredBiohazard = new EmpoweredBiohazard(new Point2D.Double(x + blackBiohazardXOffset, y + blackBiohazardYOffset), new Point2D.Double(blackBiohazardImage.getWidth(), blackBiohazardImage.getHeight()));
+				zombies.add(empoweredBiohazard);
+			}
 		} else {
 //		spawns a resource using a multiplier that can be modified by spreading fertilizer
 			if (resourceSpawnChance >= (resourceSpawnChanceMultiplier * 9990)) {
 				Resource coin = new Resource(
-						new Point2D.Double((Math.floor((Math.random() * 350) / 50) * 50) + 50 + resourceXOffset,
-								(Math.floor((Math.random() * 250) / 50) * 50) + 50 + resourceYOffset),
+						new Point2D.Double((Math.floor((Math.random() * 350) / 50) * 50) /* +50 */ + resourceXOffset,
+								(Math.floor((Math.random() * 250) / 50) * 50) /* +50 */ + resourceYOffset),
 						new Point2D.Double(resourceImage.getWidth(), resourceImage.getHeight()));
 				neutrals.add(coin);
 			}
@@ -358,7 +354,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			if(!zombie.isAlive() && zombie instanceof EmpoweredBiohazard) {
 				double xLoc = zombie.getPosition().getX()-50;
 				double yLoc = zombie.getPosition().getY()-50;
-				AreaOfEffect threeByThreeAreaOfEffect = new AreaOfEffect((new Point2D.Double(xLoc+threeByThreeAreaOfEffectXOffset,yLoc+threeByThreeAreaOfEffectYOffset)), new Point2D.Double(threeByThreeAreaOfEffectImage.getWidth(), threeByThreeAreaOfEffectImage.getHeight()));
+				AreaOfEffect threeByThreeAreaOfEffect = new AreaOfEffect((new Point2D.Double(xLoc+threeByThreeAreaOfEffectXOffset+50,yLoc+threeByThreeAreaOfEffectYOffset+50)), new Point2D.Double(threeByThreeAreaOfEffectImage.getWidth(), threeByThreeAreaOfEffectImage.getHeight()));
 				newZombies.add(threeByThreeAreaOfEffect);
 			}
 		}
@@ -374,13 +370,13 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		neutrals = newNeutrals;
 
 //		formulates the difficulty, based on score - goes up but not down
-		int difficultyFormula = (int) (5 * (Math.pow(2, difficultyLevel)));
+		int difficultyFormula = (int) (20 * (Math.pow(2, difficultyLevel)));
 		if (score >= difficultyFormula) {
 			if (difficultyLevel < 20) {
 				difficultyLevel++;
 			}
 		}
-//		increases score by 2 with every iteration
+//		increases score by 10 with every iteration
 		score += 10;
 //		sets the score label
 		String scoreSetter = (Integer.toString(score));
@@ -460,16 +456,16 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			}
 		});
 //		disabled for presentability
-		JButton button_4 = new JButton();
-		button_4.setIcon(new ImageIcon("src/copycat/actorimages/doublemushroom.png"));
-		button_4.setBounds(150, 0, 50, 50);
-		panel.add(button_4);
-		button_4.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mouseClickState = 4;
-			}
-		});
+//		JButton button_4 = new JButton();
+//		button_4.setIcon(new ImageIcon("src/copycat/actorimages/doublemushroom.png"));
+//		button_4.setBounds(150, 0, 50, 50);
+//		panel.add(button_4);
+//		button_4.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				mouseClickState = 4;
+//			}
+//		});
 
 		JButton button_5 = new JButton();
 		button_5.setIcon(new ImageIcon("src/copycat/actorimages/fertilizer.png"));
@@ -504,16 +500,16 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			}
 		});
 
-		JButton button_8 = new JButton();
-		button_8.setIcon(new ImageIcon("src/copycat/actorimages/nuclearbomb.png"));
-		button_8.setBounds(350, 0, 50, 50);
-		panel.add(button_8);
-		button_8.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mouseClickState = 8;
-			}
-		});
+//		JButton button_8 = new JButton();
+//		button_8.setIcon(new ImageIcon("src/copycat/actorimages/nuclearbomb.png"));
+//		button_8.setBounds(350, 0, 50, 50);
+//		panel.add(button_8);
+//		button_8.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				mouseClickState = 8;
+//			}
+//		});
 
 		scorePanel = new JPanel();
 		LayoutManager layout = new BoxLayout(scorePanel, BoxLayout.Y_AXIS);

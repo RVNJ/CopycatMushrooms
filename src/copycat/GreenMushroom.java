@@ -20,13 +20,13 @@ public class GreenMushroom extends Actor {
 		}
 	}
 
-	static private final int MAXIMUM_HITPOINTS = 400;
+	static private final int MAXIMUM_HITPOINTS = 4_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
 	static private final int MAXIMUM_LIFESPAN = 999_999_999;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
-	static private final int ATTACK_POWER = 50;
-	static private final int ATTACK_POWER_ACCELERATION = 2;
-	static private final int ATTACK_POWER_CAP = 200;
+	static private final int ATTACK_POWER = 500;
+	static private final int ATTACK_POWER_ACCELERATION = 10;
+	static private final int ATTACK_POWER_CAP = 1_000;
 	static private final int BLEED_DAMAGE = 2;
 	static private final int DAMAGE_ON_DEATH = 10;
 	static private final int ATTACK_RANGE = 1;
@@ -65,6 +65,9 @@ public class GreenMushroom extends Actor {
 		g.setColor(new Color(255, 40, 40));
 		g.fillRect((int) pos.getX(), (int) pos.getY() - 8,
 				(int) (box.getX() * this.hitpoints / (double) this.maximumHitpoints), 3);
+	}
+	@Override
+	public void drawLifespanBar(Graphics g) {
 	}
 	@Override
 	public void drawMaximumEffectBar(Graphics g) {

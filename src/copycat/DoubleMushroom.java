@@ -21,13 +21,13 @@ public class DoubleMushroom extends Actor {
 		}
 	}
 
-	static private final int MAXIMUM_HITPOINTS = 100;
+	static private final int MAXIMUM_HITPOINTS = 1_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
 	static private final int MAXIMUM_LIFESPAN = 999_999_999;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
-	static private final int ATTACK_POWER = 25;
-	static private final int ATTACK_POWER_ACCELERATION = 1;
-	static private final int ATTACK_POWER_CAP = 50;
+	static private final int ATTACK_POWER = 250;
+	static private final int ATTACK_POWER_ACCELERATION = 10;
+	static private final int ATTACK_POWER_CAP = 500;
 	static private final int BLEED_DAMAGE = 0;
 	static private final int DAMAGE_ON_DEATH = 0;
 	static private final int ATTACK_RANGE = 1;

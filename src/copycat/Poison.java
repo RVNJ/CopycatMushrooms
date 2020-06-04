@@ -1,5 +1,7 @@
 package copycat;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,13 +24,13 @@ public class Poison extends Actor {
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
 	static private final int MAXIMUM_LIFESPAN = 30_000;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
-	static private final int ATTACK_POWER = 100;
+	static private final int ATTACK_POWER = 200;
 	static private final int ATTACK_POWER_ACCELERATION = 0;
 	static private final int ATTACK_POWER_CAP = ATTACK_POWER;
 	static private final int BLEED_DAMAGE = 0;
 	static private final int DAMAGE_ON_DEATH = ATTACK_POWER;
 	static private final int ATTACK_RANGE = 100;
-	static private final int ATTACK_COOLDOWN = 5;
+	static private final int ATTACK_COOLDOWN = 1;
 	static private final int ATTACK_COOLDOWN_TIMER = 0;
 	static private final int STUN_DURATION = 0;
 	static private final int BIND_DURATION = 0;
@@ -53,6 +55,23 @@ public class Poison extends Actor {
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
 				DAMAGE_REDUCTION_AMOUNT, FLYING, SPEED, SPEED_ACCELERATION, SPEED_ACCELERATION_CAP, LEVEL, COST);
 	};
+	
+	@Override
+	public void drawHitpointsBar(Graphics g) {
+	}
+	@Override
+	public void drawLifespanBar(Graphics g) {
+		Point2D.Double pos = this.getPosition();
+		Point2D.Double box = this.getHitbox();
+		g.setColor(Color.BLACK);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+		g.setColor(new Color(40, 40, 255));
+		g.fillRect((int) pos.getX(), (int) pos.getY() - 5,
+				(int) (box.getX() * this.lifespanTimer / (double) this.maximumLifespan), 3);
+	}
+	@Override
+	public void drawMaximumEffectBar(Graphics g) {
+	}
 
 	/**
 	 * damages all plants and zombies, does not affect any neutrals except for itself

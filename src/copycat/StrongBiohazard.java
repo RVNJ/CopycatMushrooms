@@ -1,5 +1,7 @@
 package copycat;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,17 +20,17 @@ public class StrongBiohazard extends Actor {
 		}
 	}
 	
-	static private final int MAXIMUM_HITPOINTS = 400;
+	static private final int MAXIMUM_HITPOINTS = 4_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
 	static private final int MAXIMUM_LIFESPAN = 999_999_999;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
-	static private final int ATTACK_POWER = 200;
-	static private final int ATTACK_POWER_ACCELERATION = 2;
-	static private final int ATTACK_POWER_CAP = 400;
+	static private final int ATTACK_POWER = 2000;
+	static private final int ATTACK_POWER_ACCELERATION = 20;
+	static private final int ATTACK_POWER_CAP = 4_000;
 	static private final int BLEED_DAMAGE = 0;
 	static private final int DAMAGE_ON_DEATH = 0;
 	static private final int ATTACK_RANGE = 1;
-	static private final int ATTACK_COOLDOWN = 80;
+	static private final int ATTACK_COOLDOWN = 50;
 	static private final int ATTACK_COOLDOWN_TIMER = 0;
 	static private final int STUN_DURATION = 0;
 	static private final int BIND_DURATION = 0;
@@ -53,6 +55,29 @@ public class StrongBiohazard extends Actor {
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
 				DAMAGE_REDUCTION_AMOUNT, FLYING, SPEED, SPEED_ACCELERATION, SPEED_ACCELERATION_CAP, LEVEL, COST);
 	};
+	@Override
+	public void drawHitpointsBar(Graphics g) {
+		Point2D.Double pos = this.getPosition();
+		Point2D.Double box = this.getHitbox();
+		g.setColor(Color.BLACK);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 8, (int) box.getX(), 3);
+		g.setColor(new Color(255, 40, 40));
+		g.fillRect((int) pos.getX(), (int) pos.getY() - 8,
+				(int) (box.getX() * this.hitpoints / (double) this.maximumHitpoints), 3);
+	}
+	@Override
+	public void drawLifespanBar(Graphics g) {
+	}
+	@Override
+	public void drawMaximumEffectBar(Graphics g) {
+		Point2D.Double pos = this.getPosition();
+		Point2D.Double box = this.getHitbox();
+		g.setColor(Color.BLACK);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+		g.setColor(new Color(255, 255, 40));
+		g.fillRect((int) pos.getX(), (int) pos.getY() - 5,
+				(int) (box.getX() * this.attackPower / (double) this.attackPowerCap), 3);
+	}
 
 	/**
 	 * overrides the update to only attack plants and neutrals that are not of the type Poison or NuclearBomb, increases score by 250 when killed

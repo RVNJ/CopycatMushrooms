@@ -20,13 +20,13 @@ public class AcceleratorBiohazard extends Actor {
 		}
 	}
 
-	static private final int MAXIMUM_HITPOINTS = 400;
+	static private final int MAXIMUM_HITPOINTS = 4_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
 	static private final int MAXIMUM_LIFESPAN = 999_999_999;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
-	static private final int ATTACK_POWER = 10;
+	static private final int ATTACK_POWER = 200;
 	static private final int ATTACK_POWER_ACCELERATION = 10;
-	static private final int ATTACK_POWER_CAP = 100;
+	static private final int ATTACK_POWER_CAP = 1_000;
 	static private final int BLEED_DAMAGE = 1;
 	static private final int DAMAGE_ON_DEATH = 0;
 	static private final int ATTACK_RANGE = 1;
@@ -42,8 +42,8 @@ public class AcceleratorBiohazard extends Actor {
 	static private final int DAMAGE_REDUCTION_TIMER = DAMAGE_REDUCTION_DURATION;
 	static private final double DAMAGE_REDUCTION_AMOUNT = 0.00;
 	static private final boolean FLYING = false;
-	static private final double SPEED = -0.2;
-	static private final double SPEED_ACCELERATION = -0.05;
+	static private final double SPEED = 0;
+	static private final double SPEED_ACCELERATION = -0.025;
 	static private final double SPEED_ACCELERATION_CAP = -2;
 	static private final int LEVEL = 1;
 	static private final int COST = 400;
@@ -65,6 +65,9 @@ public class AcceleratorBiohazard extends Actor {
 		g.setColor(new Color(255, 40, 40));
 		g.fillRect((int) pos.getX(), (int) pos.getY() - 8,
 				(int) (box.getX() * this.hitpoints / (double) this.maximumHitpoints), 3);
+	}
+	@Override
+	public void drawLifespanBar(Graphics g) {
 	}
 	@Override
 	public void drawMaximumEffectBar(Graphics g) {

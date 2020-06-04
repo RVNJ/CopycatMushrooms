@@ -1,5 +1,7 @@
 package copycat;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -28,7 +30,7 @@ public class NuclearBomb extends Actor {
 	static private final int BLEED_DAMAGE = 0;
 	static private final int DAMAGE_ON_DEATH = ATTACK_POWER;
 	static private final int ATTACK_RANGE = 100;
-	static private final int ATTACK_COOLDOWN = 20;
+	static private final int ATTACK_COOLDOWN = 1;
 	static private final int ATTACK_COOLDOWN_TIMER = 0;
 	static private final int STUN_DURATION = 0;
 	static private final int BIND_DURATION = 0;
@@ -53,6 +55,24 @@ public class NuclearBomb extends Actor {
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
 				DAMAGE_REDUCTION_AMOUNT, FLYING, SPEED, SPEED_ACCELERATION, SPEED_ACCELERATION_CAP, LEVEL, COST);
 	};
+
+	
+	@Override
+	public void drawHitpointsBar(Graphics g) {
+	}
+	@Override
+	public void drawLifespanBar(Graphics g) {
+		Point2D.Double pos = this.getPosition();
+		Point2D.Double box = this.getHitbox();
+		g.setColor(Color.BLACK);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+		g.setColor(new Color(255, 255, 40));
+		g.fillRect((int) pos.getX(), (int) pos.getY() - 5,
+				(int) (box.getX() * this.lifespanTimer / (double) this.maximumLifespan), 3);
+	}
+	@Override
+	public void drawMaximumEffectBar(Graphics g) {
+	}
 	
 
 	/**

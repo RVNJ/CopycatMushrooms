@@ -20,11 +20,11 @@ public class HealerBiohazard extends Actor {
 		}
 	}
 
-	static private final int MAXIMUM_HITPOINTS = 400;
+	static private final int MAXIMUM_HITPOINTS = 4_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
 	static private final int MAXIMUM_LIFESPAN = 120_000;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
-	static private final int ATTACK_POWER = 10;
+	static private final int ATTACK_POWER = 100;
 	static private final int ATTACK_POWER_ACCELERATION = 0;
 	static private final int ATTACK_POWER_CAP = ATTACK_POWER;
 	static private final int BLEED_DAMAGE = 0;

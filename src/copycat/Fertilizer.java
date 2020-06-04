@@ -20,7 +20,7 @@ public class Fertilizer extends Actor {
 		}
 	}
 
-	static private final int MAXIMUM_HITPOINTS = 200;
+	static private final int MAXIMUM_HITPOINTS = 2_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
 	static private final int MAXIMUM_LIFESPAN = 600_000;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;

@@ -1,5 +1,7 @@
 package copycat;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -56,4 +58,21 @@ public class Resource extends Actor{
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
 				DAMAGE_REDUCTION_AMOUNT, FLYING, SPEED, SPEED_ACCELERATION, SPEED_ACCELERATION_CAP, LEVEL, COST);
 	};
+	
+	@Override
+	public void drawHitpointsBar(Graphics g) {
+		Point2D.Double pos = this.getPosition();
+		Point2D.Double box = this.getHitbox();
+		g.setColor(Color.BLACK);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 8, (int) box.getX(), 3);
+		g.setColor(new Color(255, 40, 40));
+		g.fillRect((int) pos.getX(), (int) pos.getY() - 8,
+				(int) (box.getX() * this.hitpoints / (double) this.maximumHitpoints), 3);
+	}
+	@Override
+	public void drawLifespanBar(Graphics g) {
+	}
+	@Override
+	public void drawMaximumEffectBar(Graphics g) {
+	}
 }
