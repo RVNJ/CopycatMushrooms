@@ -56,7 +56,8 @@ public class DoubleMushroom extends Actor {
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
 				DAMAGE_REDUCTION_AMOUNT, FLYING, SPEED, SPEED_ACCELERATION, SPEED_ACCELERATION_CAP, LEVEL, COST);
 	};
-
+	
+	//REMOVED for the time being
 	
 	@Override
 	public void update() {
@@ -66,7 +67,6 @@ public class DoubleMushroom extends Actor {
 		for (Actor plant : ActorTest.plants) {
 			if (this.isCollidingOther(plant)) {
 				this.resetAttackCooldown();
-//				System.out.println(this.readyForAttack());
 				if (plant instanceof RedMushroom) {
 					redmushroom = new RedMushroom(getPosition(), plant.hitbox);
 					mushroomsToAdd.add(redmushroom);
@@ -79,22 +79,3 @@ public class DoubleMushroom extends Actor {
 		}
 	}
 }
-//			if (this.isCollidingOther(plant)) {
-//				if (readyForAction()) {
-
-//					resetCoolDown();
-//				}
-//			}
-//		}
-//		System.out.println("are you ready for this");
-
-//		System.out.println("update double mushroom");
-//		if(redmushroom != null) {
-//			mushroomsToAdd.add(redmushroom);
-//		}
-//		if(greenmushroom != null) {
-//			mushroomsToAdd.add(greenmushroom);
-//		}
-//	}
-//	System.out.println("damage: "+redmushroom.attackDamage+" | speed: "+redmushroom.speed+" | health: "+redmushroom.health+"/"+redmushroom.fullHealth);
-//}

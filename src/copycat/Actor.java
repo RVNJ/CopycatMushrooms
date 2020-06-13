@@ -54,7 +54,7 @@ public class Actor extends Sprite implements Attack {
 		this.damageOnDeath = damageOnDeath;
 		this.attackRange = attackRange;
 		this.attackCooldown = attackCooldown;
-		this.attackCooldownTimer = attackCooldown;
+		this.attackCooldownTimer = 0;
 		this.stunDuration = stunDuration;
 		this.bindDuration = bindDuration;
 		this.healing = healing;
@@ -135,9 +135,7 @@ public class Actor extends Sprite implements Attack {
 		Point2D.Double box = this.getHitbox();
 		g.setColor(Color.BLACK);
 		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
-		g.setColor(new Color(255, 40, 40));
-		g.fillRect((int) pos.getX(), (int) pos.getY() - 5,
-				(int) (box.getX() * this.hitpoints / (double) this.maximumHitpoints), 3);
+		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * (this.hitpoints / (double) this.maximumHitpoints)), 2);
 	}
 	
 	public void drawLifespanBar(Graphics g) {
@@ -145,9 +143,20 @@ public class Actor extends Sprite implements Attack {
 		Point2D.Double box = this.getHitbox();
 		g.setColor(Color.BLACK);
 		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
-		g.setColor(new Color(40, 40, 255));
-		g.fillRect((int) pos.getX(), (int) pos.getY() - 5,
-				(int) (box.getX() * this.lifespanTimer / (double) this.maximumLifespan), 3);
+		if(this.immunityTimer > 0) {
+			g.setColor(new Color(255, 192, 192));
+			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * (this.immunityTimer / (double) this.immunityDuration)), 2);
+		} else {
+			if(this.damageReductionTimer > 0) {
+				g.setColor(new Color(255, 128, 40));
+				g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * (this.damageReductionTimer / (double) this.damageReductionDuration)), 2);
+			} else {
+				if(this.maximumLifespan < 999_999_999) {
+					g.setColor(new Color(40, 40, 255));
+					g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * (this.lifespanTimer / (double) this.maximumLifespan)), 2);
+				}
+			}
+		}
 	}
 
 	public void drawMaximumEffectBar(Graphics g) {
@@ -156,18 +165,31 @@ public class Actor extends Sprite implements Attack {
 		g.setColor(Color.BLACK);
 		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
 		g.setColor(new Color(255, 255, 40));
-		g.fillRect((int) pos.getX(), (int) pos.getY() - 5,
-				(int) (box.getX() * this.attackPower / (double) this.attackPowerCap), 3);
+		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * (this.attackPower / (double) this.attackPowerCap)), 2);
 	}
 
 	@Override
 	public void attack(Actor other) {
 		if (this != other && this.isCollidingOther(other)) {
 			setColliding(true);
-			if (this.readyForAttack()) {
-				other.changeHitpoints(-attackPower);
-				this.resetAttackCooldown();
+			attackLogic(other);
+		}
+	}
+
+	protected void attackLogic(Actor other) {
+		if (this.readyForAttack()) {
+			if (other.immunityTimer <= 0) {
+				if (other.immunityDuration <= 0) {
+					other.changeHitpoints(-attackPower);
+				} else {
+					int trueDamageOutput = (int)(0.01 * (100 - other.damageReductionAmount) * attackPower);
+					other.changeHitpoints(-trueDamageOutput);
+//					System.out.println("Damage reduced! "+this.attackPower+" -> "+trueDamageOutput);
+				}
+			} else {
+//				System.out.println("Attack wasted! Enemy is immune to damage!");
 			}
+			this.resetAttackCooldown();
 		}
 	}
 	

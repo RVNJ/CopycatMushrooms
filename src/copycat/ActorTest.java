@@ -75,11 +75,11 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	static int mouseClickState = 0;
 	static int score = 0;
 //	sets the game dimensions
-	static int xDimension = 500;
-	static int yDimension = 300;
+	static int xDimension = 1000;//1000;//500;
+	static int yDimension = 600;//600;//300;
 //	sets the game's grid width and height
-	static int gridWidth = 50;
-	static int gridHeight = 50;
+	static int gridWidth = 100;//100;//50;
+	static int gridHeight = 100;//100;//50;
 //	initializes the difficulty and resource spawn chance
 	static int difficultyLevel = 1;
 	public static double resourceSpawnChanceMultiplier = 1;
@@ -105,7 +105,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	static int threeByThreeAreaOfEffectXOffset;
 	static int threeByThreeAreaOfEffectYOffset;
 	
-	static boolean debugEnabled = true;//false;
+	static boolean debugEnabled = false;//false;
 
 	/**
 	 * delcares the image locations both contained in the filesystem and their
@@ -122,7 +122,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			poisonImage = ImageIO.read(new File("src/copycat/actorimages/poison.png"));
 			nuclearBombImage = ImageIO.read(new File("src/copycat/actorimages/nuclearbomb.png"));
 			
-			threeByThreeAreaOfEffectImage = ImageIO.read(new File("src/copycat/actorimages/3x3aoe_black.png"));
+			threeByThreeAreaOfEffectImage = ImageIO.read(new File("src/copycat/actorimages/3x3aoe.png"));
 			threeByThreeAreaOfEffectXOffset = (int) (double) (0.5 * (gridWidth - threeByThreeAreaOfEffectImage.getWidth())); 
 			threeByThreeAreaOfEffectYOffset = (int) (double) (0.5 * (gridHeight - threeByThreeAreaOfEffectImage.getHeight())); 
 
@@ -187,10 +187,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 //			plants.add(home);
 //		}
 
-		Resource coin = new Resource(
-				new Point2D.Double((Math.floor((Math.random() * 350) / 50) * 50) + 50 + resourceXOffset,
-						(Math.floor((Math.random() * 250) / 50) * 50 + 50) + resourceYOffset),
-				new Point2D.Double(resourceImage.getWidth(), resourceImage.getHeight()));
+		Resource coin = new Resource(new Point2D.Double((Math.floor((Math.random() * (xDimension-(3*gridWidth))) / gridWidth) * gridWidth) + gridWidth + resourceXOffset, (Math.floor((Math.random() * (yDimension-gridHeight)) / gridHeight) * gridHeight + gridHeight) + resourceYOffset), new Point2D.Double(resourceImage.getWidth(), resourceImage.getHeight()));
 		neutrals.add(coin);
 
 		timer = new Timer(25, this);
@@ -242,8 +239,8 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	public void actionPerformed(ActionEvent e) {
 		int row = (rand.nextInt(5) + 1);
 		int col = (rand.nextInt(2) + 8);
-		int x = (col * 50);
-		int y = (row * 50);
+		int x = (col * gridWidth);
+		int y = (row * gridHeight);
 
 		int resourceSpawnChance = rand.nextInt(10000);
 		int zombieSpawnChance = rand.nextInt(10000);
@@ -266,10 +263,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		} else {
 //		spawns a resource using a multiplier that can be modified by spreading fertilizer
 			if (resourceSpawnChance >= (resourceSpawnChanceMultiplier * 9990)) {
-				Resource coin = new Resource(
-						new Point2D.Double((Math.floor((Math.random() * 350) / 50) * 50) /* +50 */ + resourceXOffset,
-								(Math.floor((Math.random() * 250) / 50) * 50) /* +50 */ + resourceYOffset),
-						new Point2D.Double(resourceImage.getWidth(), resourceImage.getHeight()));
+				Resource coin = new Resource(new Point2D.Double((Math.floor((Math.random() * (xDimension-(3*gridWidth))) / gridWidth) * gridWidth) + gridWidth + resourceXOffset, (Math.floor((Math.random() * (yDimension-gridHeight)) / gridHeight) * gridHeight + gridHeight) + resourceYOffset), new Point2D.Double(resourceImage.getWidth(), resourceImage.getHeight()));
 				neutrals.add(coin);
 			}
 //		spawns biohazards based on the random number, then modified by the current difficulty, shifting down if too high for the current score/difficulty
@@ -334,12 +328,12 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			for (Actor zombie : zombies) {
 				plant.attack(zombie);
 			}
-			if (plant.getPosition().getX() <= 500) {
+			if (plant.getPosition().getX() <= xDimension) {
 				if (plant.isAlive()) {
 					newPlants.add(plant);
 					plant.move();
 				}
-			} else if (plant.getPosition().getX() > 500) {
+			} else if (plant.getPosition().getX() > xDimension) {
 				score += (2*plant.getCost());
 			}
 		}
@@ -352,10 +346,12 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 				zombie.move();
 			}
 			if(!zombie.isAlive() && zombie instanceof EmpoweredBiohazard) {
-				double xLoc = zombie.getPosition().getX()-50;
-				double yLoc = zombie.getPosition().getY()-50;
-				AreaOfEffect threeByThreeAreaOfEffect = new AreaOfEffect((new Point2D.Double(xLoc+threeByThreeAreaOfEffectXOffset+50,yLoc+threeByThreeAreaOfEffectYOffset+50)), new Point2D.Double(threeByThreeAreaOfEffectImage.getWidth(), threeByThreeAreaOfEffectImage.getHeight()));
+				double xLoc = zombie.getPosition().getX();
+				double yLoc = zombie.getPosition().getY();
+				AreaOfEffect threeByThreeAreaOfEffect = new AreaOfEffect((new Point2D.Double(xLoc-50,yLoc-50)), new Point2D.Double(threeByThreeAreaOfEffectImage.getWidth(), threeByThreeAreaOfEffectImage.getHeight()));
 				newZombies.add(threeByThreeAreaOfEffect);
+				Biohazard biohazard = new Biohazard(new Point2D.Double(xLoc, yLoc), new Point2D.Double(biohazardImage.getWidth(), biohazardImage.getHeight()));
+				newZombies.add(biohazard);
 			}
 		}
 		zombies = newZombies;
@@ -455,17 +451,17 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 				mouseClickState = 3;
 			}
 		});
-//		disabled for presentability
-//		JButton button_4 = new JButton();
-//		button_4.setIcon(new ImageIcon("src/copycat/actorimages/doublemushroom.png"));
-//		button_4.setBounds(150, 0, 50, 50);
-//		panel.add(button_4);
-//		button_4.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				mouseClickState = 4;
-//			}
-//		});
+
+		JButton button_4 = new JButton();
+		button_4.setIcon(new ImageIcon("src/copycat/actorimages/doublemushroom.png"));
+		button_4.setBounds(150, 0, 50, 50);
+		panel.add(button_4);
+		button_4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mouseClickState = 4;
+			}
+		});
 
 		JButton button_5 = new JButton();
 		button_5.setIcon(new ImageIcon("src/copycat/actorimages/fertilizer.png"));
@@ -500,16 +496,16 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			}
 		});
 
-//		JButton button_8 = new JButton();
-//		button_8.setIcon(new ImageIcon("src/copycat/actorimages/nuclearbomb.png"));
-//		button_8.setBounds(350, 0, 50, 50);
-//		panel.add(button_8);
-//		button_8.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				mouseClickState = 8;
-//			}
-//		});
+		JButton button_8 = new JButton();
+		button_8.setIcon(new ImageIcon("src/copycat/actorimages/nuclearbomb.png"));
+		button_8.setBounds(350, 0, 50, 50);
+		panel.add(button_8);
+		button_8.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mouseClickState = 8;
+			}
+		});
 
 		scorePanel = new JPanel();
 		LayoutManager layout = new BoxLayout(scorePanel, BoxLayout.Y_AXIS);

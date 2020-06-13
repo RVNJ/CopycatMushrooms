@@ -12,7 +12,7 @@ public class AreaOfEffect extends Actor {
 	static private BufferedImage IMG;
 	static {
 		try {
-			IMG = ImageIO.read(new File("src/copycat/actorimages/3x3aoe_black.png"));
+			IMG = ImageIO.read(new File("src/copycat/actorimages/3x3aoe.png"));
 		} catch (IOException e) {
 			System.out.println("you're bad");
 			e.printStackTrace();
@@ -29,7 +29,7 @@ public class AreaOfEffect extends Actor {
 	static private final int BLEED_DAMAGE = 0;
 	static private final int DAMAGE_ON_DEATH = 0;
 	static private final int ATTACK_RANGE = 1;
-	static private final int ATTACK_COOLDOWN = 1;
+	static private final int ATTACK_COOLDOWN = 0;
 	static private final int ATTACK_COOLDOWN_TIMER = 0;
 	static private final int STUN_DURATION = 0;
 	static private final int BIND_DURATION = 0;

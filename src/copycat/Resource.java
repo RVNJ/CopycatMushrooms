@@ -64,10 +64,9 @@ public class Resource extends Actor{
 		Point2D.Double pos = this.getPosition();
 		Point2D.Double box = this.getHitbox();
 		g.setColor(Color.BLACK);
-		g.drawRect((int) pos.getX(), (int) pos.getY() - 8, (int) box.getX(), 3);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
 		g.setColor(new Color(255, 40, 40));
-		g.fillRect((int) pos.getX(), (int) pos.getY() - 8,
-				(int) (box.getX() * this.hitpoints / (double) this.maximumHitpoints), 3);
+		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) (box.getX()-1 * ((double)this.hitpoints / (double)this.maximumHitpoints)), 2);
 	}
 	@Override
 	public void drawLifespanBar(Graphics g) {

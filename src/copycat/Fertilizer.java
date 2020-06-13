@@ -1,5 +1,7 @@
 package copycat;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -38,9 +40,9 @@ public class Fertilizer extends Actor {
 	static private final int HEALING_COOLDOWN = 0;
 	static private final int IMMUNITY_DURATION = 0;
 	static private final int IMMUNITY_TIMER = 0;
-	static private final int DAMAGE_REDUCTION_DURATION = 120_000;
+	static private final int DAMAGE_REDUCTION_DURATION = 0;
 	static private final int DAMAGE_REDUCTION_TIMER = DAMAGE_REDUCTION_DURATION;
-	static private final double DAMAGE_REDUCTION_AMOUNT = 20.00;
+	static private final double DAMAGE_REDUCTION_AMOUNT = 0.00;
 	static private final boolean FLYING = false;
 	static private final double SPEED = 0;
 	static private final double SPEED_ACCELERATION = 0;
@@ -55,6 +57,28 @@ public class Fertilizer extends Actor {
 				IMMUNITY_DURATION, IMMUNITY_TIMER, DAMAGE_REDUCTION_DURATION, DAMAGE_REDUCTION_TIMER,
 				DAMAGE_REDUCTION_AMOUNT, FLYING, SPEED, SPEED_ACCELERATION, SPEED_ACCELERATION_CAP, LEVEL, COST);
 	};
+	
+	@Override
+	public void drawHitpointsBar(Graphics g) {
+		Point2D.Double pos = this.getPosition();
+		Point2D.Double box = this.getHitbox();
+		g.setColor(Color.BLACK);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 8, (int) box.getX(), 3);
+		g.setColor(new Color(255, 40, 40));
+		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 7, (int) ((box.getX()-1) * ((double) this.hitpoints / (double) this.maximumHitpoints)), 2);
+	}
+	@Override
+	public void drawLifespanBar(Graphics g) {
+		Point2D.Double pos = this.getPosition();
+		Point2D.Double box = this.getHitbox();
+		g.setColor(Color.BLACK);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+		g.setColor(new Color(40, 40, 255));
+		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * ((double)this.lifespanTimer / (double) this.maximumLifespan)), 2);
+	}
+	@Override
+	public void drawMaximumEffectBar(Graphics g) {
+	}
 
 	/**
 	 * overrides the update to set the chance of spawning a gold coin resource according the number of

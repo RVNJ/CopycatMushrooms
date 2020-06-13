@@ -22,7 +22,7 @@ public class Fence extends Actor {
 
 	static private final int MAXIMUM_HITPOINTS = 20_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
-	static private final int MAXIMUM_LIFESPAN = 3_600_000;
+	static private final int MAXIMUM_LIFESPAN = 999_999_999;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
 	static private final int ATTACK_POWER = 0;
 	static private final int ATTACK_POWER_ACCELERATION = 0;
@@ -60,21 +60,28 @@ public class Fence extends Actor {
 	public void drawHitpointsBar(Graphics g) {
 		Point2D.Double pos = this.getPosition();
 		Point2D.Double box = this.getHitbox();
-		g.setColor(Color.BLACK);
-		g.drawRect((int) pos.getX(), (int) pos.getY() - 8, (int) box.getX(), 3);
-		g.setColor(new Color(255, 40, 40));
-		g.fillRect((int) pos.getX(), (int) pos.getY() - 8,
-				(int) (box.getX() * this.hitpoints / (double) this.maximumHitpoints), 3);
+		if (damageReductionTimer <= 0) {
+			g.setColor(Color.BLACK);
+			g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) (box.getX()), 3);
+			g.setColor(new Color(255, 40, 40));
+			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * ((double) this.hitpoints / (double) this.maximumHitpoints)), 2);
+		} else {
+			g.setColor(Color.BLACK);
+			g.drawRect((int) pos.getX(), (int) pos.getY() - 8, (int) (box.getX()), 3);
+			g.setColor(new Color(255, 40, 40));
+			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 7, (int) ((box.getX()-1) * ((double) this.hitpoints / (double) this.maximumHitpoints)), 2);
+		}
 	}
 	@Override
 	public void drawLifespanBar(Graphics g) {
 		Point2D.Double pos = this.getPosition();
 		Point2D.Double box = this.getHitbox();
-		g.setColor(Color.BLACK);
-		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
-		g.setColor(new Color(255, 255, 40));
-		g.fillRect((int) pos.getX(), (int) pos.getY() - 5,
-				(int) (box.getX() * this.lifespanTimer / (double) this.maximumLifespan), 3);
+		if (this.damageReductionTimer > 0) {
+			g.setColor(Color.BLACK);
+			g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+			g.setColor(new Color(255, 128, 40));
+			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * ((double) this.damageReductionTimer / (double) this.damageReductionDuration)), 2);
+		}
 	}
 	@Override
 	public void drawMaximumEffectBar(Graphics g) {

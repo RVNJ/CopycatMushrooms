@@ -30,7 +30,7 @@ public class Poison extends Actor {
 	static private final int BLEED_DAMAGE = 0;
 	static private final int DAMAGE_ON_DEATH = ATTACK_POWER;
 	static private final int ATTACK_RANGE = 100;
-	static private final int ATTACK_COOLDOWN = 1;
+	static private final int ATTACK_COOLDOWN = 0;
 	static private final int ATTACK_COOLDOWN_TIMER = 0;
 	static private final int STUN_DURATION = 0;
 	static private final int BIND_DURATION = 0;
@@ -66,8 +66,7 @@ public class Poison extends Actor {
 		g.setColor(Color.BLACK);
 		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
 		g.setColor(new Color(40, 40, 255));
-		g.fillRect((int) pos.getX(), (int) pos.getY() - 5,
-				(int) (box.getX() * this.lifespanTimer / (double) this.maximumLifespan), 3);
+		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * ((double)this.lifespanTimer / (double) this.maximumLifespan)), 2);
 	}
 	@Override
 	public void drawMaximumEffectBar(Graphics g) {
@@ -101,6 +100,6 @@ public class Poison extends Actor {
 	 */
 	@Override
 	public void attack(Actor other) {
-		other.changeHitpoints(-attackPower);
+		attackLogic(other);
 	}
 }
