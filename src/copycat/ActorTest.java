@@ -105,7 +105,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	static int threeByThreeAreaOfEffectXOffset;
 	static int threeByThreeAreaOfEffectYOffset;
 	
-	static boolean debugEnabled = false;//false;
+	static boolean debugEnabled = true;//false;
 
 	/**
 	 * delcares the image locations both contained in the filesystem and their
@@ -256,7 +256,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 //						new Point2D.Double(blackBiohazardImage.getWidth(), blackBiohazardImage.getHeight()));
 //				zombies.add(biohazard);
 //			}
-			if (zombieSpawnChance >= (9950)) {
+			if (zombieSpawnChance >= (9995)) {
 				EmpoweredBiohazard empoweredBiohazard = new EmpoweredBiohazard(new Point2D.Double(x + blackBiohazardXOffset, y + blackBiohazardYOffset), new Point2D.Double(blackBiohazardImage.getWidth(), blackBiohazardImage.getHeight()));
 				zombies.add(empoweredBiohazard);
 			}
@@ -348,7 +348,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			if(!zombie.isAlive() && zombie instanceof EmpoweredBiohazard) {
 				double xLoc = zombie.getPosition().getX();
 				double yLoc = zombie.getPosition().getY();
-				AreaOfEffect threeByThreeAreaOfEffect = new AreaOfEffect((new Point2D.Double(xLoc-50,yLoc-50)), new Point2D.Double(threeByThreeAreaOfEffectImage.getWidth(), threeByThreeAreaOfEffectImage.getHeight()));
+				AreaOfEffect threeByThreeAreaOfEffect = new AreaOfEffect((new Point2D.Double(xLoc-gridWidth,yLoc-gridHeight)), new Point2D.Double(threeByThreeAreaOfEffectImage.getWidth(), threeByThreeAreaOfEffectImage.getHeight()));
 				newZombies.add(threeByThreeAreaOfEffect);
 				Biohazard biohazard = new Biohazard(new Point2D.Double(xLoc, yLoc), new Point2D.Double(biohazardImage.getWidth(), biohazardImage.getHeight()));
 				newZombies.add(biohazard);
@@ -536,8 +536,8 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	 * @return is the cell occupied - true/false
 	 */
 	public boolean cellIsOccupied(MouseEvent e) {
-		double baseX = Math.floor(e.getX() / 50) * 50;
-		double baseY = Math.floor(e.getY() / 50) * 50;
+		double baseX = Math.floor(e.getX() / gridWidth) * gridWidth;
+		double baseY = Math.floor(e.getY() / gridHeight) * gridHeight;
 		boolean result = false;
 
 		ArrayList<Actor> allPlants = new ArrayList<>();
@@ -860,7 +860,6 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
 	}
 
 	/**

@@ -24,7 +24,7 @@ public class HealerBiohazard extends Actor {
 
 	static private final int MAXIMUM_HITPOINTS = 4_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
-	static private final int MAXIMUM_LIFESPAN = 120_000;
+	static private final int MAXIMUM_LIFESPAN = 999_999_999;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
 	static private final int ATTACK_POWER = 100;
 	static private final int ATTACK_POWER_ACCELERATION = 0;
@@ -40,9 +40,9 @@ public class HealerBiohazard extends Actor {
 	static private final int HEALING_COOLDOWN = 2_000;
 	static private final int IMMUNITY_DURATION = 0;
 	static private final int IMMUNITY_TIMER = 0;
-	static private final int DAMAGE_REDUCTION_DURATION = 20_000;
+	static private final int DAMAGE_REDUCTION_DURATION = 2_000;
 	static private final int DAMAGE_REDUCTION_TIMER = DAMAGE_REDUCTION_DURATION;
-	static private final double DAMAGE_REDUCTION_AMOUNT = 50.00;
+	static private final double DAMAGE_REDUCTION_AMOUNT = 99.00;
 	static private final boolean FLYING = false;
 	static private final double SPEED = -0.1;
 	static private final double SPEED_ACCELERATION = 0;
@@ -64,14 +64,14 @@ public class HealerBiohazard extends Actor {
 		Point2D.Double box = this.getHitbox();
 		if (immunityTimer <= 0 && damageReductionTimer <= 0) {
 			g.setColor(Color.BLACK);
-			g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) (box.getX()), 3);
+			g.drawRect((int) pos.getX(), (int) pos.getY() - 6, (int) (box.getX()), 4);
 			g.setColor(new Color(255, 40, 40));
-			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * ((double) this.hitpoints / (double) this.maximumHitpoints)), 2);
+			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 5, (int) ((box.getX()-1) * ((double) this.hitpoints / (double) this.maximumHitpoints)), 3);
 		} else {
 			g.setColor(Color.BLACK);
-			g.drawRect((int) pos.getX(), (int) pos.getY() - 8, (int) (box.getX()), 3);
+			g.drawRect((int) pos.getX(), (int) pos.getY() - 10, (int) (box.getX()), 4);
 			g.setColor(new Color(255, 40, 40));
-			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 7, (int) ((box.getX()-1) * ((double) this.hitpoints / (double) this.maximumHitpoints)), 2);
+			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 9, (int) ((box.getX()-1) * ((double) this.hitpoints / (double) this.maximumHitpoints)), 3);
 		}
 	}
 
@@ -81,15 +81,15 @@ public class HealerBiohazard extends Actor {
 		Point2D.Double box = this.getHitbox();
 		if (this.immunityTimer > 0) {
 			g.setColor(Color.BLACK);
-			g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+			g.drawRect((int) pos.getX(), (int) pos.getY() - 6, (int) box.getX(), 4);
 			g.setColor(new Color(255, 192, 192));
-			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * ((double) this.immunityTimer / (double) this.immunityDuration)), 2);
+			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 5, (int) ((box.getX()-1) * ((double) this.immunityTimer / (double) this.immunityDuration)), 3);
 		} else {
 			if (this.damageReductionTimer > 0) {
 				g.setColor(Color.BLACK);
-				g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+				g.drawRect((int) pos.getX(), (int) pos.getY() - 6, (int) box.getX(), 4);
 				g.setColor(new Color(255, 128, 40));
-				g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * ((double) this.damageReductionTimer / (double) this.damageReductionDuration)), 2);
+				g.fillRect((int) pos.getX()+1, (int) pos.getY() - 5, (int) ((box.getX()-1) * ((double) this.damageReductionTimer / (double) this.damageReductionDuration)), 3);
 			}
 		}
 	}

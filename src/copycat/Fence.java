@@ -62,14 +62,14 @@ public class Fence extends Actor {
 		Point2D.Double box = this.getHitbox();
 		if (damageReductionTimer <= 0) {
 			g.setColor(Color.BLACK);
-			g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) (box.getX()), 3);
+			g.drawRect((int) pos.getX(), (int) pos.getY() - 6, (int) (box.getX()), 4);
 			g.setColor(new Color(255, 40, 40));
-			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * ((double) this.hitpoints / (double) this.maximumHitpoints)), 2);
+			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 5, (int) ((box.getX()-1) * ((double) this.hitpoints / (double) this.maximumHitpoints)), 3);
 		} else {
 			g.setColor(Color.BLACK);
-			g.drawRect((int) pos.getX(), (int) pos.getY() - 8, (int) (box.getX()), 3);
+			g.drawRect((int) pos.getX(), (int) pos.getY() - 10, (int) (box.getX()), 4);
 			g.setColor(new Color(255, 40, 40));
-			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 7, (int) ((box.getX()-1) * ((double) this.hitpoints / (double) this.maximumHitpoints)), 2);
+			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 9, (int) ((box.getX()-1) * ((double) this.hitpoints / (double) this.maximumHitpoints)), 3);
 		}
 	}
 	@Override
@@ -78,9 +78,9 @@ public class Fence extends Actor {
 		Point2D.Double box = this.getHitbox();
 		if (this.damageReductionTimer > 0) {
 			g.setColor(Color.BLACK);
-			g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+			g.drawRect((int) pos.getX(), (int) pos.getY() - 6, (int) box.getX(), 4);
 			g.setColor(new Color(255, 128, 40));
-			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * ((double) this.damageReductionTimer / (double) this.damageReductionDuration)), 2);
+			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 5, (int) ((box.getX()-1) * ((double) this.damageReductionTimer / (double) this.damageReductionDuration)), 3);
 		}
 	}
 	@Override

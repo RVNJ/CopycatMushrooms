@@ -134,26 +134,26 @@ public class Actor extends Sprite implements Attack {
 		Point2D.Double pos = this.getPosition();
 		Point2D.Double box = this.getHitbox();
 		g.setColor(Color.BLACK);
-		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
-		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * (this.hitpoints / (double) this.maximumHitpoints)), 2);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 6, (int) box.getX(), 4);
+		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 5, (int) ((box.getX()-1) * (this.hitpoints / (double) this.maximumHitpoints)), 3);
 	}
 	
 	public void drawLifespanBar(Graphics g) {
 		Point2D.Double pos = this.getPosition();
 		Point2D.Double box = this.getHitbox();
 		g.setColor(Color.BLACK);
-		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 6, (int) box.getX(), 4);
 		if(this.immunityTimer > 0) {
 			g.setColor(new Color(255, 192, 192));
-			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * (this.immunityTimer / (double) this.immunityDuration)), 2);
+			g.fillRect((int) pos.getX()+1, (int) pos.getY() - 5, (int) ((box.getX()-1) * (this.immunityTimer / (double) this.immunityDuration)), 3);
 		} else {
 			if(this.damageReductionTimer > 0) {
 				g.setColor(new Color(255, 128, 40));
-				g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * (this.damageReductionTimer / (double) this.damageReductionDuration)), 2);
+				g.fillRect((int) pos.getX()+1, (int) pos.getY() - 5, (int) ((box.getX()-1) * (this.damageReductionTimer / (double) this.damageReductionDuration)), 3);
 			} else {
 				if(this.maximumLifespan < 999_999_999) {
 					g.setColor(new Color(40, 40, 255));
-					g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * (this.lifespanTimer / (double) this.maximumLifespan)), 2);
+					g.fillRect((int) pos.getX()+1, (int) pos.getY() - 5, (int) ((box.getX()-1) * (this.lifespanTimer / (double) this.maximumLifespan)), 3);
 				}
 			}
 		}
@@ -163,9 +163,9 @@ public class Actor extends Sprite implements Attack {
 		Point2D.Double pos = this.getPosition();
 		Point2D.Double box = this.getHitbox();
 		g.setColor(Color.BLACK);
-		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 6, (int) box.getX(), 4);
 		g.setColor(new Color(255, 255, 40));
-		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * (this.attackPower / (double) this.attackPowerCap)), 2);
+		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 5, (int) ((box.getX()-1) * (this.attackPower / (double) this.attackPowerCap)), 3);
 	}
 
 	@Override

@@ -61,9 +61,9 @@ public class GreenMushroom extends Actor {
 		Point2D.Double pos = this.getPosition();
 		Point2D.Double box = this.getHitbox();
 		g.setColor(Color.BLACK);
-		g.drawRect((int) pos.getX(), (int) pos.getY() - 8, (int) box.getX(), 3);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 10, (int) box.getX(), 4);
 		g.setColor(new Color(255, 40, 40));
-		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 7, (int) ((box.getX()-1) * this.hitpoints / (double) this.maximumHitpoints), 2);
+		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 9, (int) ((box.getX()-1) * this.hitpoints / (double) this.maximumHitpoints), 3);
 	}
 
 	@Override
@@ -75,9 +75,9 @@ public class GreenMushroom extends Actor {
 		Point2D.Double pos = this.getPosition();
 		Point2D.Double box = this.getHitbox();
 		g.setColor(Color.BLACK);
-		g.drawRect((int) pos.getX(), (int) pos.getY() - 5, (int) box.getX(), 3);
+		g.drawRect((int) pos.getX(), (int) pos.getY() - 6, (int) box.getX(), 4);
 		g.setColor(new Color(255, 255, 40));
-		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 4, (int) ((box.getX()-1) * this.attackPower / (double) this.attackPowerCap), 2);
+		g.fillRect((int) pos.getX()+1, (int) pos.getY() - 5, (int) ((box.getX()-1) * this.attackPower / (double) this.attackPowerCap), 3);
 	}
 
 	@Override
