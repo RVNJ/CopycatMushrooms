@@ -165,9 +165,8 @@ public class BlueMushroom extends Actor {
 	@Override
 	public void attack(Actor other) {
 		super.attack(other);
-		if(this.readyForAttack()) {
+		if (this != other && this.isCollidingOther(other)) {
 			other.resetAttackCooldown();
 		}
-		System.out.println(other.attackCooldownTimer+"/"+other.attackCooldown);
 	}
 }
