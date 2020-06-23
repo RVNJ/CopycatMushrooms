@@ -179,7 +179,7 @@ public class Actor extends Sprite implements Attack {
 	protected void attackLogic(Actor other) {
 		if (this.readyForAttack()) {
 			if (other.immunityTimer <= 0) {
-				if (other.immunityDuration <= 0) {
+				if (other.damageReductionTimer <= 0) {
 					other.changeHitpoints(-attackPower);
 				} else {
 					int trueDamageOutput = (int)(0.01 * (100 - other.damageReductionAmount) * attackPower);

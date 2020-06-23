@@ -25,9 +25,9 @@ public class BlueMushroom extends Actor {
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
 	static private final int MAXIMUM_LIFESPAN = 999_999_999;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
-	static private final int ATTACK_POWER = 40;
+	static private final int ATTACK_POWER = 200;
 	static private final int ATTACK_POWER_ACCELERATION = 2;
-	static private final int ATTACK_POWER_CAP = 200;
+	static private final int ATTACK_POWER_CAP = 400;
 	static private final int BLEED_DAMAGE = 0;
 	static private final int DAMAGE_ON_DEATH = 0;
 	static private final int ATTACK_RANGE = 1;
@@ -164,8 +164,8 @@ public class BlueMushroom extends Actor {
 //	}
 	@Override
 	public void attack(Actor other) {
-		super.attack(other);
 		if (this != other && this.isCollidingOther(other)) {
+			super.attack(other);
 			other.resetAttackCooldown();
 		}
 	}

@@ -42,7 +42,7 @@ public class HealerBiohazard extends Actor {
 	static private final int IMMUNITY_TIMER = 0;
 	static private final int DAMAGE_REDUCTION_DURATION = 2_000;
 	static private final int DAMAGE_REDUCTION_TIMER = DAMAGE_REDUCTION_DURATION;
-	static private final double DAMAGE_REDUCTION_AMOUNT = 99.00;
+	static private final double DAMAGE_REDUCTION_AMOUNT = 90.00;
 	static private final boolean FLYING = false;
 	static private final double SPEED = -0.1;
 	static private final double SPEED_ACCELERATION = 0;

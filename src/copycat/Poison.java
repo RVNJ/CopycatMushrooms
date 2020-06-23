@@ -22,7 +22,7 @@ public class Poison extends Actor {
 
 	static private final int MAXIMUM_HITPOINTS = 1_000_000_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
-	static private final int MAXIMUM_LIFESPAN = 30_000;
+	static private final int MAXIMUM_LIFESPAN = 20_000;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
 	static private final int ATTACK_POWER = 200;
 	static private final int ATTACK_POWER_ACCELERATION = 0;
@@ -100,6 +100,8 @@ public class Poison extends Actor {
 	 */
 	@Override
 	public void attack(Actor other) {
-		attackLogic(other);
+		if(other != this) {
+			attackLogic(other);
+		}
 	}
 }

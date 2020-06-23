@@ -372,6 +372,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 				difficultyLevel++;
 			}
 		}
+		if(scoreLabel != null && difficultyLabel != null) {
 //		increases score by 10 with every iteration
 		score += 10;
 //		sets the score label
@@ -380,6 +381,7 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		// sets the difficulty label
 		String difficultySetter = ("Difficulty Level: " + Integer.toString(difficultyLevel));
 		difficultyLabel.setText(difficultySetter);
+		}
 
 		repaint();
 	}
@@ -400,16 +402,33 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			}
 		});
 	}
-
-	/**
+	static int buttonValue = 1;
+	private static void makeJButton(String imageLocation){
+		JButton button = new JButton();
+		button.setIcon(new ImageIcon("src/copycat/actorimages/"+imageLocation));
+		button.setBounds(gridWidth*buttonValue, 0, gridWidth, gridHeight);
+		panel.add(button);
+		int assignedValue = buttonValue; 
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mouseClickState = assignedValue;
+			}
+		});
+		buttonValue ++;
+	}
+	/*
 	 * initializes the GUI layout, including the frame, panels, labels and buttons
 	 * used
-	 */
+	 * */
+	 
+	static ActorTest panel = new ActorTest();
 	private static void initializeLayout() {
 
+		
 		JFrame app = new JFrame("Mushrooms vs Biohazards");
 		app.setResizable(false);
-		ActorTest panel = new ActorTest();
+//		ActorTest panel = new ActorTest();
 
 		app.setContentPane(panel);
 
@@ -419,93 +438,17 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 		app.setVisible(true);
 		app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JButton button_1 = new JButton();
-		button_1.setIcon(new ImageIcon("src/copycat/actorimages/redmushroom.png"));
-		button_1.setBounds(0, 0, 50, 50);
-		panel.add(button_1);
-		button_1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mouseClickState = 1;
-			}
-		});
 
-		JButton button_2 = new JButton();
-		button_2.setIcon(new ImageIcon("src/copycat/actorimages/greenmushroom.png"));
-		button_2.setBounds(50, 0, 50, 50);
-		panel.add(button_2);
-		button_2.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mouseClickState = 2;
-			}
-		});
-//		disabled for presentability
-		JButton button_3 = new JButton();
-		button_3.setIcon(new ImageIcon("src/copycat/actorimages/bluemushroom.png"));
-		button_3.setBounds(100, 0, 50, 50);
-		panel.add(button_3);
-		button_3.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mouseClickState = 3;
-			}
-		});
-
-		JButton button_4 = new JButton();
-		button_4.setIcon(new ImageIcon("src/copycat/actorimages/doublemushroom.png"));
-		button_4.setBounds(150, 0, 50, 50);
-		panel.add(button_4);
-		button_4.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mouseClickState = 4;
-			}
-		});
-
-		JButton button_5 = new JButton();
-		button_5.setIcon(new ImageIcon("src/copycat/actorimages/fertilizer.png"));
-		button_5.setBounds(200, 0, 50, 50);
-		panel.add(button_5);
-		button_5.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mouseClickState = 5;
-			}
-		});
-
-		JButton button_6 = new JButton();
-		button_6.setIcon(new ImageIcon("src/copycat/actorimages/fence.png"));
-		button_6.setBounds(250, 0, 50, 50);
-		panel.add(button_6);
-		button_6.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mouseClickState = 6;
-			}
-		});
-
-		JButton button_7 = new JButton();
-		button_7.setIcon(new ImageIcon("src/copycat/actorimages/poison.png"));
-		button_7.setBounds(300, 0, 50, 50);
-		panel.add(button_7);
-		button_7.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mouseClickState = 7;
-			}
-		});
-
-		JButton button_8 = new JButton();
-		button_8.setIcon(new ImageIcon("src/copycat/actorimages/nuclearbomb.png"));
-		button_8.setBounds(350, 0, 50, 50);
-		panel.add(button_8);
-		button_8.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mouseClickState = 8;
-			}
-		});
+		makeJButton("redmushroom.png");
+		makeJButton("greenmushroom.png");
+		makeJButton("bluemushroom.png");
+		makeJButton("doublemushroom.png");
+		makeJButton("fertilizer.png");
+		makeJButton("fence.png");
+		makeJButton("poison.png");
+		makeJButton("nuclearbomb.png");
+		makeJButton("blackbiohazard.png");
+//		makeJButton("bluebiohazard.png");
 
 		scorePanel = new JPanel();
 		LayoutManager layout = new BoxLayout(scorePanel, BoxLayout.Y_AXIS);
@@ -715,6 +658,34 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			System.out.println("You do not have enough points to drop a nuclear bomb! (Cost: " + cost + ")");
 		}
 	}
+
+	public void spawnEmpoweredBiohazard(MouseEvent e) {
+		int cost = 0;
+		if (score >= cost) {
+			if (e.getX() < (10 * gridWidth) && e.getX() > (0 * gridWidth) && e.getY() >= gridHeight) {
+				EmpoweredBiohazard empoweredbiohazard = new EmpoweredBiohazard(setCoords(setImageHeightWidth(blackBiohazardImage), e),
+						setImageHeightWidth(blackBiohazardImage));
+				zombies.add(empoweredbiohazard);
+				score -= cost;
+			} else {
+				System.out.println("You cannot place an empowered biohazard here.");
+			}
+		}
+	}
+
+	public void spawnHealerBiohazard(MouseEvent e) {
+		int cost = 0;
+		if (score >= cost) {
+			if (e.getX() < (10 * gridWidth) && e.getX() > (0 * gridWidth) && e.getY() >= gridHeight) {
+				HealerBiohazard healerbiohazard = new HealerBiohazard(setCoords(setImageHeightWidth(blueBiohazardImage), e),
+						setImageHeightWidth(blueBiohazardImage));
+				zombies.add(healerbiohazard);
+				score -= cost;
+			} else {
+				System.out.println("You cannot place a healer biohazard here.");
+			}
+		}
+	}
 	
 
 	
@@ -784,34 +755,16 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			}
 			break;
 		case 1:
-//			if (!cellIsOccupied(e)) {
 			spawnRedMushroom(e);
-//			} else {
-//				System.out.println("this cell is already occupied");
-//			}
 			break;
 		case 2:
-//			if (!cellIsOccupied(e)) {
 			spawnGreenMushroom(e);
-//			} else {
-//				System.out.println("this cell is already occupied");
-//			}
 			break;
 		case 3:
-//			if(!cellIsOccupied(e)){
-//			System.out.println("option disabled");
 			spawnBlueMushroom(e);
-//			} else {
-//				System.out.println("this cell is already occupied");
-//			}
 			break;
 		case 4:
-//			if(!cellIsOccupied(e)){
-//			System.out.println("option disabled");
 			spawnDoubleMushroom(e);
-//			} else {
-//				System.out.println("this cell is already occupied");
-//			}
 			break;
 		case 5:
 			if (!cellIsOccupied(e)) {
@@ -828,18 +781,13 @@ public class ActorTest extends JPanel implements ActionListener, MouseListener {
 			}
 			break;
 		case 7:
-//			if (!cellIsOccupied(e)) {
 			spawnPoison(e);
-//			} else {
-//				System.out.println("this cell is already occupied");
-//			}
 			break;
 		case 8:
-//			if (!cellIsOccupied(e)) {
 			spawnNuclearBomb(e);
-//			} else {
-//				System.out.println("this cell is already occupied");
-//			}
+			break;
+		case 9:
+			spawnEmpoweredBiohazard(e);//spawnHealerBiohazard(e);
 			break;
 		default:
 			System.out.println("error: invalid option");

@@ -20,7 +20,7 @@ public class EmpoweredBiohazard extends Actor {
 		}
 	}
 
-	static private final int MAXIMUM_HITPOINTS = 50_000;
+	static private final int MAXIMUM_HITPOINTS = 20_000;
 	static private final int HITPOINTS = MAXIMUM_HITPOINTS;
 	static private final int MAXIMUM_LIFESPAN = 999_999_999;
 	static private final int LIFESPAN_TIMER = MAXIMUM_LIFESPAN;
@@ -28,7 +28,7 @@ public class EmpoweredBiohazard extends Actor {
 	static private final int ATTACK_POWER_ACCELERATION = 10;
 	static private final int ATTACK_POWER_CAP = 20_000;
 	static private final int BLEED_DAMAGE = 0;
-	static private final int DAMAGE_ON_DEATH = 1_00;
+	static private final int DAMAGE_ON_DEATH = 1000;
 	static private final int ATTACK_RANGE = 1;
 	static private final int ATTACK_COOLDOWN = 100;
 	static private final int ATTACK_COOLDOWN_TIMER = 0;
@@ -36,11 +36,11 @@ public class EmpoweredBiohazard extends Actor {
 	static private final int BIND_DURATION = 0;
 	static private final int HEALING = 0;
 	static private final int HEALING_COOLDOWN = 0;
-	static private final int IMMUNITY_DURATION = 2_000;
+	static private final int IMMUNITY_DURATION = 1_500;
 	static private final int IMMUNITY_TIMER = IMMUNITY_DURATION;
-	static private final int DAMAGE_REDUCTION_DURATION = 10_000;
+	static private final int DAMAGE_REDUCTION_DURATION = 3_000;
 	static private final int DAMAGE_REDUCTION_TIMER = DAMAGE_REDUCTION_DURATION;
-	static private final double DAMAGE_REDUCTION_AMOUNT = 25.00;
+	static private final double DAMAGE_REDUCTION_AMOUNT = 50.00;
 	static private final boolean FLYING = false;
 	static private final double SPEED = -0.2;
 	static private final double SPEED_ACCELERATION = 0;
